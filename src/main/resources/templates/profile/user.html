@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/layout/index::dynamic(~{::main})}" xmlns="http://www.w3.org/1999/xhtml">
+<main>
+	<div class="profile-container">
+		<div class="profile">
+			<div class="profile-header" onclick="toggleProfileInfo()">
+
+				<img th:src="@{|/assets/images/avatas/${account.photo}|}" alt="Profile Picture">
+				<div class="profile-details">
+					<h2 th:text="${account.fullname}"></h2>
+				
+				</div>
+				<i class="fa fa-chevron-down"></i>
+			</div>
+			<div class="profile-info" id="profileInfo">
+				<div class="profile-section">
+					<h3>Thông tin tài khoản </h3>
+					<p>
+						<strong>Email: <span th:text="${account.email}"></span> </strong> 
+					</p>
+					<p>
+						<strong>Họ và tên: <span th:text="${account.fullname}"></span></strong>
+					</p>
+					<p>
+						<strong>Username: <span th:text="${account.username}"></span></strong> 
+					</p>
+				<button th:href="@{/account/update/username/{username}(username=${account.username})}"
+      					  type="button" class="edit-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+  						  Cập nhật
+				</button>
+				</div>
+		
+			<div class="profile-section">
+					 <th:block th:if="${userProfile != null}">
+        				<h3>Địa chỉ</h3>
+						<ul>
+						<li><strong>Địa chỉ:</strong> <span th:text="${userProfile.streetAddress}"></span></li>
+						<li><strong>Thành phố:</strong> <span th:text="${userProfile.city}"></span></li>
+						<li><strong>State:</strong> <span th:text="${userProfile.state}"></span></li>
+						<li><strong>Zip Code:</strong> <span th:text="${userProfile.zipCode}"></span></li>
+						<li><strong>Quốc gia:</strong> <span th:text="${userProfile.country}"></span></li>
+						<li><strong>Số điện thoại:</strong> <span th:text="${userProfile.phoneNumber}"></span></li>
+						<li><strong>Ngày sinh:</strong> <span th:text="${#dates.format(userProfile.dateOfBirth, 'yyyy-MM-dd')}"></span></li>
+						<li><strong>Nơi sinh:</strong> <span th:text="${userProfile.placeOfBirth}"></span></li>
+					</ul>
+        			 <div th:if="${userProfile != null}">
+				 	<button type="button" th:href="@{/account/update/address/{userId}(userId=${userProfile.userId})}" class="edit-button" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+						Sửa thông tin
+					</button>
+					</div>
+						 </th:block>
+						 
+						  <th:block th:unless="${userProfile != null}">
+        				<h3>Địa chỉ</h3>
+						<ul>
+						<li><strong>Địa chỉ:</strong></li>
+						<li><strong>Thành phố:</strong></li>
+						<li><strong>State:</strong></li>
+						<li><strong>Zip Code:</strong></li>
+						<li><strong>Quốc gia:</strong></li>
+						<li><strong>Số điện thoại:</strong></li>
+						<li><strong>Ngày sinh:</strong></li>
+						<li><strong>Nơi sinh:</strong></li>
+					</ul>
+						<div th:if="${userProfile == null}">
+				<button type="button" class="edit-button" th:href="@{/account/update/address/{userId}(userId=${userId})}" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+						Thêm thông tin
+					</button>
+						</div>
+						 </th:block>
+				</div>
+			
+			
+				<div class="profile-section">
+					<h3>Account Settings</h3>
+					<p>
+						<strong>Username:</strong> Username123
+					</p>
+					<p>
+						<strong>Password:</strong> ********
+					</p>
+					<button class="edit-button">Change Password</button>
+				</div>
+				<div class="profile-section">
+					<h3>Wishlist</h3>
+					<ul>
+						<li>Product 1</li>
+						<li>Product 2</li>
+						<li>Product 3</li>
+					</ul>
+					<button class="view-all-button">View Wishlist</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<!-- Modal để chỉnh sửa thông tin tài khoản -->
+	<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+	<form th:action="@{/account/update/username/{username}(username=${account.username})}" 
+      method="post" 
+      th:object="${account}" 
+      enctype="multipart/form-data">
+    
+    <div class="mb-3">
+        <input type="hidden" th:field="*{id}" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <input type="text" class="form-control" id="username" th:field="*{username}" readonly="readonly"/ disabled="disabled">
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" th:field="*{email}" required="required">
+        <div th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label for="fullname" class="form-label">Họ và tên</label>
+        <input type="text" class="form-control" id="fullname" th:field="*{fullname}" required="required">
+        <div th:if="${#fields.hasErrors('fullname')}" class="text-danger" th:errors="*{fullname}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Mật khẩu</label>
+        <input type="password" class="form-control" id="password" th:field="*{password}" required="required">
+        <div th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label for="photoFile" class="form-label">Upload Photo</label>
+        <input type="file" class="form-control" accept="image/*" name="photoFile" id="photoFile">
+        
+        <!-- Hiển thị ảnh nếu tồn tại -->
+        <div th:if="${account.photo}">
+            <img th:src="@{|/assets/images/avatas/${account.photo}|}" alt="Profile Picture" width="100%" height="200px">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save changes</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+	
+	
+	<!-- Modal để chỉnh sửa thông tin địa chỉ -->
+	 <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<h5 class="modal-title" id="editAddressModalLabel">Edit Address</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				 <th:block th:if="${userProfile != null}">
+					<form action="#" th:action="@{/account/update/address}" th:object="${userProfile}" method="post">
+					  <input type="hidden" th:field="*{userId}" />
+    		<div class="mb-3">
+       			 <label for="streetAddress" class="form-label">Địa chỉ:</label>
+       			 <input type="text" class="form-control" id="streetAddress" th:field="*{streetAddress}">
+   			 </div>
+   		 <div class="mb-3">
+     		   <label for="city" class="form-label">Thành phố:</label>
+      		  <input type="text" class="form-control" id="city" th:field="*{city}">
+   		 </div>
+  		  <div class="mb-3">
+     	   <label for="state" class="form-label">State:</label>
+     	   <input type="text" class="form-control" id="state" th:field="*{state}">
+    </div>
+  	  <div class="mb-3">
+      			  <label for="zipCode" class="form-label">Zip Code:</label>
+     			   <input type="text" class="form-control" id="zipCode" th:field="*{zipCode}">
+   		 </div>
+   			 <div class="mb-3">
+     		   <label for="country" class="form-label">Quốc gia:</label>
+     		   <input type="text" class="form-control" id="country" th:field="*{country}">
+   		 </div>
+  		  <div class="mb-3">
+ 		       <label for="phoneNumber" class="form-label">Số điện thoại:</label>
+  		      <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}">
+  		  </div>
+		    <div class="mb-3">
+    		    <label for="dateOfBirth" class="form-label">Ngày sinh:</label>
+    		    <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}">
+   			 </div>
+   			 <div class="mb-3">	
+     		   <label for="placeOfBirth" class="form-label">Nơi sinh:</label>
+			        <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}">
+  		  </div>		   
+  			  <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+		</form>							
+				</th:block>
+				
+				 <th:block th:unless="${userProfile != null}">
+					<form action="#" th:action="@{/account/update/address}" th:object="${userProfile}" method="post">
+					  <input type="hidden" th:field="*{userId}" />
+    		<div class="mb-3">
+       			 <label for="streetAddress" class="form-label">Địa chỉ:</label>
+       			 <input type="text" class="form-control" id="streetAddress" th:field="*{streetAddress}">
+   			 </div>
+   		 <div class="mb-3">
+     		   <label for="city" class="form-label">Thành phố:</label>
+      		  <input type="text" class="form-control" id="city" th:field="*{city}">
+   		 </div>
+  		  <div class="mb-3">
+     	   <label for="state" class="form-label">State:</label>
+     	   <input type="text" class="form-control" id="state" th:field="*{state}">
+    </div>
+  	  <div class="mb-3">
+      			  <label for="zipCode" class="form-label">Zip Code:</label>
+     			   <input type="text" class="form-control" id="zipCode" th:field="*{zipCode}">
+   		 </div>
+   			 <div class="mb-3">
+     		   <label for="country" class="form-label">Quốc gia:</label>
+     		   <input type="text" class="form-control" id="country" th:field="*{country}">
+   		 </div>
+  		  <div class="mb-3">
+ 		       <label for="phoneNumber" class="form-label">Số điện thoại:</label>
+  		      <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}">
+  		  </div>
+		    <div class="mb-3">
+    		    <label for="dateOfBirth" class="form-label">Ngày sinh:</label>
+    		    <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}">
+   			 </div>
+   			 <div class="mb-3">	
+     		   <label for="placeOfBirth" class="form-label">Nơi sinh:</label>
+			        <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}">
+  		  </div>		   
+  			  <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+		</form>							
+				</th:block>
+				</div>
+				
+			</div>
+		</div>
+	</div>  
+	
+	
+		
+	<script>
+		function toggleProfileInfo() {
+			var profileInfo = document.getElementById('profileInfo');
+			if (profileInfo.style.display === 'block') {
+				profileInfo.style.display = 'none';
+			} else {
+				profileInfo.style.display = 'block';
+			}
+		}
+	</script>
+</main>
+
+</html>
+

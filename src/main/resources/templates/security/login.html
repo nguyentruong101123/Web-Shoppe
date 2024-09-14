@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <link rel="stylesheet" href="/assets/css/login.css">
+</head>
+<body>
+  <div class="container">
+        <div class="logo">
+            <img src="/images/logo.png" alt="Logo">
+        </div>
+        <h2>Đăng Nhập</h2>
+
+        <!-- Form đăng nhập -->
+        <form action="/auth/login" method="post">
+            <div class="form-group">
+                <label for="username">Tên người dùng</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Đăng Nhập">
+            </div>
+        </form>
+
+        <!-- Các nút OAuth2 -->
+        <div class="oauth-buttons">
+            <!-- Thay thế URL bên dưới bằng URL thực tế của bạn -->
+            <a href="/oauth2/authorization/google" class="oauth-button google-button">
+                <img src="/assets/images/oauth2/7465f30319191e2729668875e7a557f2.jpg" alt="Google">
+                Google
+            </a>
+            <a href="/oauth2/authorization/facebook" class="oauth-button facebook-button">
+                <img src="/assets/images/oauth2/Facebook_f_logo_(2019).svg" alt="Facebook">
+                Facebook
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Chưa có tài khoản? <a href="/auth/sign-up">Đăng ký ngay</a></p>
+        </div>
+    </div>
+</body>
+</html>

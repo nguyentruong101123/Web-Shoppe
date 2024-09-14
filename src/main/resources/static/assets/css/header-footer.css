@@ -1,0 +1,94 @@
+header{
+    height: 100%;
+    background-color: #fff;
+}
+.slide-all{
+    display: flex;
+    height: 450px;
+}
+.slide{
+    position: relative;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+.mySlides{
+    display: none;
+}
+.mySlides img{
+    object-fit: cover;
+}
+.pre, .next{
+    position: absolute;
+    padding: 10px 5px ;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    user-select: none;
+    transition: 0.6s ease;
+ 
+    padding: 10px 5px;
+  
+}
+.pre{
+   top: 300px;
+   left: 100px;
+   border-radius: 0 3px 3px 0;
+}
+.next{
+    top: 300px;
+    right: 618px;
+    border-radius: 3px 0px 0px 3px;
+}
+.pre:hover, .next:hover{
+    background-color: rgba(0, 0, 0,0.8);
+    padding: 10px 6px;
+}
+.small-slide{
+    margin-left: 20px;
+    margin-top: 20px;
+    display: block;
+    cursor: pointer;
+}
+.icon-menu{
+    background: #fff;
+    
+    display: flex;
+    text-align: center;
+    margin-left: 150px;
+    padding: 10px;
+}
+.icon p{
+    margin-left: 0px;
+    padding: 4px;
+    width: 120px;
+}
+.icon a{
+    color: black;
+    text-decoration: none;
+   
+}
+.icon:hover{
+    transform: translateY(-2px);
+}
+
+footer h5 {
+    margin-bottom: 15px;
+}
+
+footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer .fab {
+    font-size: 1.5rem;
+}

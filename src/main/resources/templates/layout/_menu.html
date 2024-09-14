@@ -1,0 +1,48 @@
+<div xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+	<nav class="navbar">
+		<a class="brand" th:href="@{/home/index}">MyWebsite</a>
+		<div class="nav-links">
+			<!-- <a th:href="@{/home/index}"><i class="fa fa-home"></i> Trang chủ</a>  -->
+		<!-- 	<a href="#services"><i class="fa fa-cogs"></i> Sản phẩm</a> 
+			<a href="#contact"><i class="fa fa-envelope"></i> Contact</a> <a
+				href="#about"><i class="fa fa-info-circle"></i> About</a> -->
+				 <a
+				th:href="@{/home/service/product}">Tạo Sản phẩm</a>
+		</div>
+		<div class="search-box">
+			<input type="text" placeholder="Search...">
+			<button type="submit">
+				<i class="fa fa-search"></i> Search
+			</button>
+		</div>
+		<div class="icons">
+			<a th:href="@{/cart/sale}" title="Cart"><i
+				class="fa fa-shopping-cart"></i></a>
+			<th:block th:if="${#authorization.expression('isAuthenticated')}">
+				<!-- Nội dung cho người dùng đã đăng nhập -->
+				<div class="auth-user">			
+						<img th:src="@{|/assets/images/avatas/${account.photo}|}"
+							alt="Profile Picture">
+						<p th:text="${account.fullname}"></p>
+				
+					<!-- Menu dropdown -->
+					<div class="dropdown-menu">	
+						<a th:href="@{/account/user/profile/{id}(id=${account.id})}" title="Profile">Tài khoản</a>
+						<a
+							href="/auth/logoff" title="Logout">Đăng xuất</a>
+					</div>
+				</div>
+			</th:block>
+			
+
+			<th:block th:unless="${#authorization.expression('isAuthenticated')}">
+				<!-- Nội dung cho người dùng chưa đăng nhập -->
+				<a href="/auth/login/form" title="Login"><i class="fa fa-user"></i></a>
+			</th:block>
+
+
+		</div>
+	</nav>
+</div>

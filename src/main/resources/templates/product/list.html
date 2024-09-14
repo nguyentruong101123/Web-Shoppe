@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+     th:replace="~{/layout/index::dynamic(~{::main})}">
+    <body>
+        <main class="profile-content">
+            <div class="card-container">
+                <!-- Lặp qua danh sách sản phẩm và hiển thị -->
+                <div class="card" th:each="product : ${products}">
+                    <div class="product-images">
+                        <a th:href="@{/product/details/{productId}(productId=${product.id})}">
+                            <img th:src="@{|/assets/images/product/${product.mainImage.image}|}" 
+                                 th:alt="${product.mainImage.imageType}"/>     
+                        </a>
+                    </div>
+                    <p th:text="${product.description}"></p>
+                    <p>Price: <span th:text="${product.price}"></span></p>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

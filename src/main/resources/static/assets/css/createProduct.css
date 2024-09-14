@@ -1,0 +1,204 @@
+/* Reset các thuộc tính mặc định */
+body, h1, h2, label, input, select, textarea {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Toàn bộ phần thân */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Chính giữa */	
+main {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+/* Form */
+form {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề */
+h1, h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Hàng trong form */
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Để các thuộc tính nằm cùng hàng khi có không gian */
+}
+
+/* Label và input */
+label {
+    font-size: 16px;
+    color: #333;
+    width: 30%;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea,
+select {
+    width: 65%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fafafa;
+    margin-left: 15px; /* Khoảng cách giữa label và input */
+}
+
+/* Thay đổi kích thước của textarea */
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Container cho select và button */
+/* Container cho select và button */
+.select-container {
+    display: flex;
+    align-items: center;
+}
+
+.select-container select {
+    flex: 1;
+    height: 42px; /* Đảm bảo chiều cao của select phù hợp với button */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fafafa;
+    margin-right: 10px; /* Khoảng cách giữa select và button */
+}
+
+/* Button căn chỉnh cùng chiều cao với select */
+.select-container button {
+    height: 42px; /* Chiều cao của button bằng với select */
+    padding: 0 12px;
+    font-size: 14px;
+    color: #ff5722;
+    background-color: #fff;
+    border: 1px solid #ff5722;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.select-container button:hover {
+    background-color: #ff5722;
+    color: #fff;
+}
+
+
+/* Nút tạo sản phẩm */
+input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #ff5722;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #e64a19;
+}
+
+/* Modal */
+#createColorModal, #createSizeModal, #createCategoryModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* Giảm chiều rộng để giảm kích thước tổng thể */
+    max-height: 40vh; /* Giới hạn chiều cao tối đa để tránh bị dài quá */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung quá dài */
+}
+
+/* Tiêu đề của modal */
+#createColorModal h3, #createSizeModal h3, #createCategoryModal h3{
+    margin-top: 0;
+    font-size: 18px;
+}
+#createColorModal label, #createSizeModal label, #createCategoryModal label{
+ 	width: 60%;
+}
+/* Các trường input trong modal */
+#createColorModal input[type="text"], #createSizeModal input[type="text"], #createCategoryModal input[type="text"]  {
+    width: calc(100% - 24px); /* Đảm bảo input không bị tràn ra ngoài */
+    margin-bottom: 20px;
+}
+
+/* Nút submit trong modal */
+#createColorModal input[type="submit"], #createSizeModal input[type="submit"], #createCategoryModal input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff5722;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#createColorModal input[type="submit"]:hover, #createSizeModal input[type="submit"]:hover, #createCategoryModal input[type="submit"]:hover{
+    background-color: #e64a19;
+}
+
+/* Nút đóng modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff5722;
+}
+
+/* Overlay khi mở modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
