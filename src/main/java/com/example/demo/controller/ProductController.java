@@ -6,8 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,19 +71,34 @@ public class ProductController {
 
 	@RequestMapping("/index")
 	public String home(Model model,
-			@RequestParam(value = "categoryId", required = false, defaultValue = "0") Integer categoryId) {
-		services.addUserDetailsToModel(model);
-		 model.addAttribute("hideHeader", false);
-		 List<Product> products;
-	        if (categoryId != null && categoryId != 0) {
-	            products = productService.findByCategoryIdWithMainImage(categoryId);
-	        } else {
-	            products = productService.getAllWithMainImage();
-	        }
-	        model.addAttribute("products", products);
+	        @RequestParam(value = "categoryId", required = false, defaultValue = "0") Integer categoryId,
+	        @RequestParam(defaultValue = "0") Integer pageNum) {
 
-		return "product/list";
+	    // Thêm thông tin người dùng vào model
+		
+	    services.addUserDetailsToModel(model);
+	    model.addAttribute("hideHeader", false);
+
+	    // Tạo Pageable object với thông tin trang hiện tại và kích thước
+	   
+	    // Khởi tạo Page<Product> dựa trên categoryId
+	    Integer size = 30;
+    	Pageable pageable = PageRequest.of(pageNum, size);
+	    List<Product> products;
+	    if (categoryId != null && categoryId != 0) {
+	        products = productService.findByCategoryIdWithMainImage(categoryId, pageable);
+	    } else {	
+	        products = productService.getAllWithMainImage(pageable);
+	       
+	    }
+
+	    // Thêm danh sách sản phẩm vào model
+	    model.addAttribute("products", products);
+	    model.addAttribute("pageNum", pageNum);
+	    model.addAttribute("totalPages", productService.getTotalPages(size));
+	    return "product/list";
 	}
+
 	
 	
 	@RequestMapping("/service/product")
@@ -95,77 +115,84 @@ public class ProductController {
 	
 	
 	
-	
 	@PostMapping("/product/create")
-    public String createProduct(
-            @RequestParam String name,
-            @RequestParam String description,
-            @RequestParam Double price,
-            @RequestParam Integer stock,
-            @RequestParam Integer categoryId,
-   
-            @RequestParam Integer sizeId,
-            @RequestParam Integer colorId,
-            @RequestParam Integer attributeStock,
-            @RequestParam Double attributePrice,
-            @RequestParam("mainImage") MultipartFile mainImageFile,
-            @RequestParam("detailImages") MultipartFile[] detailImageFiles,
-            Model model) {
-		try {
-			
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            Account user = accountServiceImpl.findAccountByUsername(username);
-			
-			
-			Product product = new Product();
-			product.setName(name);
-			product.setDescription(description);
-			product.setPrice(price);
-			product.setStock(stock);
-			product.setCategory(new Category(categoryId));
-			product.setUser(user);
-			productService.createProduct(product);
-			
-			
-			ProductAttribute productAttribute = new ProductAttribute();
-			productAttribute.setProduct(product);
-			productAttribute.setSize(new Size(sizeId));
-			productAttribute.setColor(new Color(colorId));
-			productAttribute.setPrice(attributePrice);
-			productAttribute.setStock(attributeStock);
-			productDetailService.createProductAttribute(productAttribute);
-			
-				if(!mainImageFile.isEmpty()) {
-					String mainImagePath  = saveUploadedFile(mainImageFile);
-					ProductImage mainImage = new ProductImage();
-					mainImage.setProduct(product);
-					mainImage.setImage(mainImagePath);
-					mainImage.setImageType("main");
-					productImageService.createProductImage(mainImage);
-					
-				}
-				
-			for(MultipartFile file : detailImageFiles) {
-				if(!file.isEmpty()) {
-					String detailImagePath = saveUploadedFile(file);
-					ProductImage detailImage = new ProductImage();
-					detailImage.setAttribute(productAttribute);
-					detailImage.setImage(detailImagePath);
-					detailImage.setImageType("detail");
-					productImageService.createProductImage(detailImage);
+	public String createProduct(
+	        @RequestParam String name,
+	        @RequestParam String description,
+	        @RequestParam Double price,
+	        @RequestParam Integer stock,
+	        @RequestParam Integer categoryId,
+	        @RequestParam("colorIds") List<Integer> colorIds,
+	        @RequestParam("sizeIds") List<Integer> sizeIds,
+	        @RequestParam("attributeStocks") List<Integer> attributeStocks,
+	        @RequestParam("attributePrices") List<Double> attributePrices,
+	        @RequestParam("mainImage") MultipartFile mainImageFile,
+	        @RequestParam("detailImages") MultipartFile[] detailImageFiles,
+	        Model model) {
 
-				}
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		  return "redirect:/home/index";
+	    try {
+	        // Lấy thông tin người dùng hiện tại
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	        String username = authentication.getName();
+	        Account user = accountServiceImpl.findAccountByUsername(username);
 
+	        // Tạo sản phẩm mới
+	        Product product = new Product();
+	        product.setName(name);
+	        product.setDescription(description);
+	        product.setPrice(price);
+	        product.setStock(stock);
+	        product.setCategory(new Category(categoryId));
+	        product.setUser(user);
+	        productService.createProduct(product);
+
+	        // Lưu các thuộc tính sản phẩm (màu, kích thước, giá, số lượng)
+	        for (int i = 0; i < colorIds.size(); i++) {
+	        	ProductAttribute productAttribute = new ProductAttribute();
+	            productAttribute.setProduct(product);
+	            productAttribute.setColor(new Color(colorIds.get(i)));
+	            productAttribute.setSize(new Size(sizeIds.get(i)));
+	            productAttribute.setPrice(attributePrices.get(i));
+	            productAttribute.setStock(attributeStocks.get(i));
+	            productDetailService.createProductAttribute(productAttribute);
+	         
+	        }
+
+	        // Xử lý ảnh chính
+	        if (!mainImageFile.isEmpty()) {
+	            String mainImagePath = saveUploadedFile(mainImageFile);
+	            ProductImage mainImage = new ProductImage();
+	            mainImage.setProduct(product);
+	   
+	            mainImage.setImage(mainImagePath);
+	            mainImage.setImageType("main");
+	            productImageService.createProductImage(mainImage);
+	        }
+
+	        // Xử lý ảnh chi tiết
+	        if (detailImageFiles != null && detailImageFiles.length > 0) {
+	            for (MultipartFile file : detailImageFiles) {
+	                if (!file.isEmpty()) {
+	                    String detailImagePath = saveUploadedFile(file);
+	                    ProductImage detailImage = new ProductImage();
+	                    detailImage.setProduct(product);
+	                   
+	                    detailImage.setImage(detailImagePath);
+	                    detailImage.setImageType("detail");
+	                    productImageService.createProductImage(detailImage);
+	                }
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return "redirect:/home/index";
 	}
+
+
+
 	
 	 private String saveUploadedFile(MultipartFile file) throws IOException {
 	        Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());

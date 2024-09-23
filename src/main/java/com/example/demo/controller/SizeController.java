@@ -20,6 +20,6 @@ public class SizeController {
     public String createSize(Size size, RedirectAttributes redirectAttributes) {
         sizeService.createSize(size);
         redirectAttributes.addFlashAttribute("message", "Kích thước mới đã được tạo.");
-        return "redirect:/home/create/product";// Trả về trang tạo sản phẩm sau khi tạo xong kích thước
+        return "redirect:/home/service/product";// Trả về trang tạo sản phẩm sau khi tạo xong kích thước
     }
 }

@@ -20,6 +20,6 @@ public class ColorController {
 	public String createColor(Color color, RedirectAttributes redirectAttributes) {
 		colorService.createColor(color);
 		redirectAttributes.addFlashAttribute("message", "Màu sắc mới đã được tạo.");
-		return "redirect:/home/create/product";
+		return "redirect:/home/service/product";
 	}
 }

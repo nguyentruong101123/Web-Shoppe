@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
      th:replace="~{/layout/index::dynamic(~{::main})}">
     <body>
-        <main class="profile-content">
+        <main class="container col-sm-9 profile-content">
             <div class="card-container">
                 <!-- Lặp qua danh sách sản phẩm và hiển thị -->
                 <div class="card" th:each="product : ${products}">
@@ -16,6 +16,8 @@
                     <p>Price: <span th:text="${product.price}"></span></p>
                 </div>
             </div>
+
+
         </main>
     </body>
 </html>

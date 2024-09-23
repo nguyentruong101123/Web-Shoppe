@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,7 +16,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByCategoryIdAndProductImageId(Integer categoryId, Integer productImageId);
 
 	@Query("SELECT p FROM Product p JOIN FETCH p.productImages pi WHERE p.category.id = ?1 AND pi.imageType = 'main'")
-	List<Product> findByCategoryId(Integer categoryId);
+	List<Product> findByCategoryId(Integer categoryId, Pageable pageable);
+	
+
 
 	
 }

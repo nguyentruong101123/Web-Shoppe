@@ -11,7 +11,7 @@
         crossorigin="anonymous"></script>
 </head>
 <body th:replace="~{/layout/index::dynamic(~{::main})}">
-   <main class="mt-4">
+   <main class="mt-4" >
         <!-- Hiển thị thông tin sản phẩm -->
         <div class="product-detail-content">
             <!-- Phần ảnh sản phẩm -->
@@ -22,12 +22,19 @@
                          th:alt="${details.productImages[0].imageType}" />
                 </div>
                 <!-- Thumbnails -->
-                <div class="thumbnail-images">
-                    <div th:each="image : ${details.productImages}">
-                        <img th:src="@{|/assets/images/product/${image.image}|}"
-                             th:alt="${image.imageType}" class="thumbnail" />
-                    </div>
-                </div>
+             <div class="thumbnail-images">
+        <!-- Nút cuộn trái -->
+       	 <button class="scroll-button left">&larr;</button>
+     	   <div class="thumbnail-container">
+            <!-- Thumbnails -->
+            <div th:each="image : ${details.productImages}">
+                <img th:src="@{|/assets/images/product/${image.image}|}" 
+                     th:alt="${image.imageType}" class="thumbnail" />
+            </div>
+        </div>
+        <!-- Nút cuộn phải -->
+        <button class="scroll-button right">&rarr;</button>
+    </div>
             </div>
 
             <!-- Thông tin sản phẩm -->
@@ -39,15 +46,17 @@
                 <p class="product-description" th:text="${details.product.description}"></p>
 
                 <!-- Giá sản phẩm -->
-                <div class="product-price">
-                    <p th:text="'Giá: ' + ${details.product.price} + ' VND'"></p>
-                </div>
+                        <!-- Giá sản phẩm -->
+    	   <div class="product-price">
+  			  <p th:text="'Giá: ' + ${formattedPrices[0]} + ' VND'"></p>
+				</div>
 
+		
                 <!-- Kích thước sản phẩm -->
                 <div class="product-size d-inline-flex col-6">
                     <h4 class="mt-2">Chọn kích thước:</h4>
                     <div th:each="size : ${details.sizes}">
-                        <span th:text="${size.sizeName}" class="size-option ms-2"></span>
+                        <span th:text="${size.sizeName}" class="size-option ms-2" onclick="selectSize(this)"></span>
                     </div>
                 </div>
 
@@ -55,21 +64,37 @@
                 <div class="product-color d-inline-flex col-6">
                     <h4 class="mt-2">Chọn màu sắc:</h4>
                     <div th:each="color : ${details.colors}">
-                        <span th:text="${color.colorName}" class="color-option ms-2"></span>
-                    </div>
+                     	  <span class="color-option"
+                     	  th:text="${color.colorName}"
+           			   th:data-id="${color.id}"
+            		   th:data-price="${color.productAttributes.size() > 0 ? color.productAttributes[0].price : 0}" 
+             		 th:data-stock="${color.productAttributes.size() > 0 ? color.productAttributes[0].stock : 0}"
+             		 th:data-size="${color.productAttributes.size() > 0 ? color.productAttributes[0].size.sizeName : 0}"
+ 					th:data-image="${color.productAttributes[0]?.productImages != null && #lists.size(color.productAttributes[0].productImages) > 0 ? color.productAttributes[0].productImages[0].image : 'default-image.jpg'}"
+ 			 
+ 					 th:onclick="'selectColor(' + ${color.id} + ');'"
+ 					  th:onmouseover="'hoverColor(' + ${color.id} + ');'"
+            
+              title="Chọn màu sắc"></span>
+          	          </div>
                 </div>
 
                 <!-- Số lượng sản phẩm -->
-                <div class="product-quantity">
-                    <h4>Số lượng</h4>
-                    <input type="number" value="1" min="1" max="100" />
-                </div>
-
+                <div class="product-quantity" >
+   				 <h4>Số lượng</h4>
+  				<div class="quantity-control">
+    		    <button class="btn-decrease">-</button>
+    		    <input value="1" min="1" max="100"/> 
+   		     <button class="btn-increase">+</button>
+   		     <span class="stock" th:text="${details.productAttributes[0].stock} + 'Hàng tồn kho'"></span>
+   		 	</div>
+			</div>
+                          
                 <!-- Nút thêm vào giỏ hàng -->
-                <div class="product-actions">
-                    <button class="add-to-cart">Thêm vào giỏ hàng</button>
-                    <button class="buy-now">Mua ngay</button>
-                </div>              
+                <div class="product-actions mt-3">
+   				 <button class="btn btn-primary add-to-cart">Thêm vào giỏ hàng</button>
+  				  <button class="btn btn-success buy-now" onclick="buyNow()">Mua ngay</button>
+				</div>         
         </div>
         
          </div>
@@ -94,4 +119,5 @@
 
     </main>
 </body>
+<script src="/assets/js/detail.js"></script>
 </html>

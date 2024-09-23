@@ -80,7 +80,7 @@ textarea {
     align-items: center;
 }
 
-.select-container select {
+.select-container select{
     flex: 1;
     height: 42px; /* Đảm bảo chiều cao của select phù hợp với button */
     padding: 8px;

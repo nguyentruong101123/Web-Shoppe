@@ -20,3 +20,5 @@
 		  document.getElementById('createSizeModal').style.display = 'none';
 		  document.getElementById('createCategoryModal').style.display = 'none';
 		}
+		
+		

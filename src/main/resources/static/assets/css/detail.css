@@ -1,11 +1,13 @@
-/* product-detail.css */
+/* Container chính cho sản phẩm */
 .product-detail-container {
     display: flex;
     justify-content: center;
     padding: 20px;
     background-color: #f5f5f5; /* Màu nền sáng giống Shopee */
+    flex-wrap: wrap; /* Đảm bảo khi màn hình nhỏ sẽ xuống dòng */
 }
 
+/* Nội dung chi tiết sản phẩm */
 .product-detail-content {
     max-width: 1200px;
     width: 100%;
@@ -15,13 +17,17 @@
     display: flex;
     padding: 20px;
     gap: 20px;
+    flex-wrap: wrap; /* Đảm bảo khi màn hình nhỏ sẽ xuống dòng */
 }
 
+/* Phần hình ảnh sản phẩm */
 .product-images {
     flex: 1;
     max-width: 50%;
+    position: relative;
 }
 
+/* Hình ảnh chính */
 .main-image img {
     width: 100%;
     height: auto;
@@ -29,10 +35,28 @@
     object-fit: cover;
 }
 
+/* Thumbnails cho hình ảnh */
 .thumbnail-images {
     display: flex;
+    overflow-x: auto; /* Cho phép cuộn ngang */
     gap: 10px;
     margin-top: 10px;
+    padding: 5px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.thumbnail-images::-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn */
+}
+
+.thumbnail-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto; /* Cuộn ngang */
+    scroll-behavior: smooth; /* Hiệu ứng cuộn mượt mà */
 }
 
 .thumbnail-images img {
@@ -42,24 +66,58 @@
     border-radius: 4px;
     cursor: pointer;
 }
+/* Nút cuộn cho thumbnails */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
 
+.scroll-button.left {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.scroll-button.right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.scroll-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Thông tin sản phẩm */
 .product-info {
     flex: 1;
     max-width: 50%;
 }
 
+/* Tên sản phẩm */
 .product-name {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
+/* Mô tả sản phẩm */
 .product-description {
     font-size: 16px;
     margin-bottom: 20px;
     color: #555;
 }
 
+/* Giá sản phẩm */
 .product-price {
     font-size: 20px;
     font-weight: bold;
@@ -67,10 +125,9 @@
     margin-bottom: 20px;
 }
 
+/* Kích thước và màu sắc sản phẩm */
 .product-size, .product-color {
     margin-bottom: 20px;
-	
-
 }
 
 .product-size h4, .product-color h4 {
@@ -92,6 +149,7 @@
     background-color: #f0f0f0;
 }
 
+/* Điều khiển số lượng sản phẩm */
 .product-quantity {
     margin-bottom: 20px;
 }
@@ -102,15 +160,52 @@
     margin-bottom: 10px;
 }
 
-.product-quantity input {
-    width: 60px;
+.quantity-control {
+    display: flex;
+    align-items: center;
+    max-width: 150px; /* Giới hạn chiều rộng cho phần điều khiển */
+}
+
+.quantity-control input {
+    width: 50px;
     height: 40px;
-    padding: 5px;
+    text-align: center;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin: 0 10px;
 }
 
+.quantity-control button {
+    width: 40px;
+    height: 40px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-control button:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-decrease {
+    color: #ff5722; /* Màu cam giảm số lượng */
+}
+
+.btn-increase {
+    color: #2196f3; /* Màu xanh tăng số lượng */
+}
+
+.stock {
+    width: 400px;
+}
+
+/* Hành động của sản phẩm */
 .product-actions {
     display: flex;
     gap: 10px;
@@ -133,7 +228,78 @@
 .buy-now {
     background-color: #2196f3; /* Màu xanh cho nút mua ngay */
 }
-/* Shop Container */
+
+/* Media Queries để đảm bảo responsive trên các thiết bị nhỏ hơn */
+@media screen and (max-width: 1024px) {
+    .product-images, .product-info {
+        max-width: 100%;
+    }
+
+    .product-detail-content {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .product-name {
+        font-size: 22px;
+    }
+
+    .product-description {
+        font-size: 14px;
+    }
+
+    .product-price {
+        font-size: 18px;
+    }
+
+    .size-option, .color-option {
+        padding: 4px 8px;
+        font-size: 14px;
+    }
+
+    .product-quantity input {
+        width: 50px;
+        height: 35px;
+    }
+
+    .add-to-cart, .buy-now {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .product-name {
+        font-size: 20px;
+    }
+
+    .product-description {
+        font-size: 12px;
+    }
+
+    .product-price {
+        font-size: 16px;
+    }
+
+    .size-option, .color-option {
+        padding: 3px 6px;
+        font-size: 12px;
+    }
+
+    .product-quantity input {
+        width: 40px;
+        height: 30px;
+    }
+
+    .add-to-cart, .buy-now {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+
+/* Container của shop */
 .shop-container {
     display: flex;
     align-items: center;
@@ -142,7 +308,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 /* Avatar của shop */
@@ -167,7 +333,7 @@
     margin-bottom: 5px;
 }
 
-/* Nút hành động */
+/* Nút hành động của shop */
 .shop-actions {
     display: flex;
     gap: 10px;
@@ -192,8 +358,52 @@
     color: #fff;
 }
 
-/* Hover effect cho nút */
+/* Hiệu ứng hover cho nút */
 .follow-btn:hover, .chat-btn:hover {
     opacity: 0.9;
+}
+.color-option.disabled {
+    opacity: 0.5; /* Làm mờ */
+    pointer-events: none; /* Không cho phép click */
+}
+ .disabled {
+        color: rgba(0,0,0,.26); /* Hoặc màu khác để làm mờ */       
+        background: #fafafa;
+    	cursor: not-allowed;
+}
+
+.color-option {
+    cursor: pointer; /* Chỉ thị có thể click */
+    transition: border 0.3s ease; /* Hiệu ứng chuyển tiếp cho border */
+}
+
+.color-option:hover {
+    border: 2px solid #007bff; /* Border khi hover */
+    border-radius: 5px; /* Đường viền góc tròn */
+}
+
+.color-option.selected {
+    border: 2px solid #28a745; /* Border khi được chọn */
+    border-radius: 5px; /* Đường viền góc tròn */
+}
+.size-option {
+    cursor: pointer; /* Chỉ thị có thể click */
+    transition: border 0.3s ease, background-color 0.3s ease; /* Hiệu ứng chuyển tiếp cho border và background */
+}
+
+.size-option:hover, .size-option.selected {
+    border: 2px solid #007bff; /* Border khi hover hoặc đã chọn */
+    border-radius: 5px; /* Đường viền góc tròn */
+    background-color: #f0f8ff; /* Màu nền khi hover hoặc đã chọn */
+}
+
+.size-option.selected {
+    border: 2px solid #28a745; /* Border khi được chọn */
+    background-color: #e0ffe0; /* Màu nền khi được chọn */
+}
+
+.size-option.disabled {
+    opacity: 0.5; /* Làm mờ các kích thước không có */
+    pointer-events: none; /* Không cho phép click vào kích thước đã làm mờ */
 }
 

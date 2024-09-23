@@ -1,0 +1,304 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    
+}
+
+.container{
+    background-color:  #f5f5f5;
+  	width: 100%;
+    padding: 20px;
+   
+}
+.main-header{
+    display: flex;
+    align-items: center;
+    border: 2px solid #f3db97;
+    background-color: #fffefb;
+    width: 100%;
+    margin: 0 auto; /* Căn giữa */
+    padding: 10px;
+}
+.main-header img{
+    margin-left: 20px;
+}
+.main-header p{
+    margin-top: 5px;
+    margin-left: 20px;
+    display: flex;
+}
+.select{
+    display: flex;
+    height: auto;
+    width: auto; 
+
+    background-color: #fff;
+    margin-top: 10px;
+}
+.ip-checkbox{
+    width: auto;
+    height: auto;
+    background: rgb(238, 77, 45);
+    margin-left: 50px;
+}
+.select p{
+    margin-top: 14px;
+    margin-left: 20px;
+ 	text-align: center;
+}
+.dongia, .soluong, .sotien, .thaotac {
+    color: #abacab;
+    font-size: 18px;
+    text-align: center;
+}
+.container-main{
+    height: 300px;
+    background-color: #fff;
+    margin-top: 10px;
+    width: 100%; 
+}
+.favorite-product{
+    display: flex;  
+    height: 50px;
+  
+    border-bottom: 2px solid #e8e8e8;
+}
+.favorite{   
+    cursor: pointer;
+    width: 70px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    height: 15px;
+    color: #fff;
+    background:  rgb(238, 77, 45);
+    margin-top: 16px;
+    font-size: 12px;
+    margin-left: 20px;
+    text-align: center;
+}
+.favorite-product p{
+    cursor: pointer;
+    padding-top: 14px;
+    font-size: 15px;
+    margin-left: 10px;
+}
+.product-container{
+    border-bottom: 2px solid #e8e8e8;
+    display: flex;
+    height: 100px auto;
+    margin-top: 25px;
+    width: auto;
+    
+}
+.img-product{
+    display: flex;
+    margin-left: 20px;
+}
+.img-product p{
+    width: 300px;
+    font-size: 15px;
+    margin-left: 4px;
+}
+.phanloai1{
+    color: #abacab;
+    margin-top: 10px;
+    font-size: 15px;
+}
+.dongia1{
+    margin-left: 50px;
+    margin-top: 10px;
+    font-size: 15px;
+    display: flex;
+  
+}
+.soluong1{
+    margin-left: 60px;
+    margin-top: 10px;
+    font-size: 15px;
+}
+.sotien1{
+    margin-left: 100px;
+    margin-top: 10px;
+    font-size: 15px;
+    color: red;
+}
+.thaotac1{
+    margin-left: 60px;
+    font-size: 15px;    
+    text-align: center;
+    width: 100px;
+    color:  rgb(238, 77, 45);
+}
+.thaotac1 a{
+    color: black;
+    text-decoration: none;
+}
+.thaotac1 a:hover{
+    color: red;
+    text-decoration: none;
+}
+.voucher{
+    display: flex;
+    height: 40px;
+    font-size: 15px;
+    margin-top: 20px;
+    border-bottom: 2px solid #e8e8e8;
+}
+.voucher img{
+    margin-left: 50px;
+}
+.moi{
+    width: 30px;
+    height: 20px;
+    background-color: rgb(238, 77, 45);
+    color: #fff;
+    margin-left: 10px;
+}
+.voucher p{
+    margin-left: 18px;
+}
+.voucher a{
+    text-decoration: none;
+    color: #05a;
+    margin-left: 10px;
+  
+}
+.ship{
+    display: flex;
+    height: 40px;
+    font-size: 15px;
+    margin-top: 20px;
+   
+}
+.ship img{
+    margin-left: 50px;
+}
+.ship p{
+    margin-left: 18px;
+}
+.ship a{
+    text-decoration: none;
+    color: #05a;
+    margin-left: 10px;
+ 
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .select, .product-container {
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+    }
+
+    .select p, .product-container p {
+        font-size: 12px;
+    }
+
+    .img-product img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .img-product p {
+        font-size: 12px;
+    }
+
+    .dongia1, .soluong1, .sotien1, .thaotac1 {
+        font-size: 12px;
+    }
+
+    .favorite-product p {
+        font-size: 12px;
+    }
+}
+.muahang{
+    margin-top: 10px;
+    height: 100%;
+    background-color: #fff;
+    width: 100%;
+}
+.shoppe-voucher{
+    height: 100%;
+    display: flex;
+    width: 100%; 
+    font-size: 15px;
+    border-bottom: 2px solid #e8e8e8;
+}
+.shoppe-voucher img{
+    margin-left: 700px;
+    margin-top: 10px;
+}
+.shoppe-voucher p{
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+}
+.shoppe-voucher a{
+    color: #05a;
+    text-decoration: none;
+    margin-left: 180px;
+    margin-top: 10px;
+}
+.shoppe-xu{
+    height: 100%;
+    display: flex;
+    width: 100%; 
+    font-size: 15px;
+    border-bottom: 2px solid #e8e8e8;
+    font-size: 15px;
+    
+}
+.shoppe-xu img{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.shoppe-xu p{
+    opacity: .2;
+    margin-top: 10px;
+}
+.ip-checkbox1{
+    margin-top: 10px;
+    margin-left: 600px;
+    width: 20px;
+    height: 20px;
+    opacity: .2;
+    cursor: not-allowed;
+    
+}
+.all-muahang{
+    height: 100%;
+    display: flex;
+    width: 100%; 
+    font-size: 15px;
+    font-size: 15px;
+}
+.all-muahang a{
+    width: 150px;
+    height: 30px;
+    padding: 12px 60px;
+    color: white;
+    background-color: rgb(238, 77, 45);
+    text-decoration: none;
+    margin-left: 30px;
+    border-radius: 2px;
+    
+}
+.muahang-last{
+    margin-top: 20px;
+}
+.all-muahang a:hover{
+    background-color: rgb(238, 77, 45);
+    color: white;
+    opacity: .8;
+    
+}
+.all-muahang p{
+    margin-top: 20px;
+    margin-left: 10px;
+}

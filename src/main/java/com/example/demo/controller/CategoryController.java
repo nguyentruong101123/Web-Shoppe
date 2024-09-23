@@ -20,6 +20,6 @@ public class CategoryController {
 	public String createCategory(Category category, RedirectAttributes redirectAttributes) {
 		categoryService.save(category);
 		redirectAttributes.addFlashAttribute("message", "Danh mục mới đã được tạo.");
-		return "redirect:/home/create/product";
+		return "redirect:/home/service/product";
 	}
 }
