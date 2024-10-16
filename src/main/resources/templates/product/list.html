@@ -8,16 +8,39 @@
                 <div class="card" th:each="product : ${products}">
                     <div class="product-images">
                         <a th:href="@{/product/details/{productId}(productId=${product.id})}">
-                            <img th:src="@{|/assets/images/product/${product.mainImage.image}|}" 
-                                 th:alt="${product.mainImage.imageType}"/>     
+                            <img th:src="@{|/assets/images/product/${product.mainImage.image}|}"
+                                 th:alt="${product.mainImage.imageType}"/>
                         </a>
                     </div>
                     <p th:text="${product.description}"></p>
                     <p>Price: <span th:text="${product.price}"></span></p>
                 </div>
             </div>
+            <nav aria-label="Pagination" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <!-- Nút Previous -->
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/home/index(num=${currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
 
+                    <!-- Hiển thị danh sách các trang -->
+                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/home/index(num=${i})}" th:text="${i}"></a>
+                    </li>
+
+                    <!-- Nút Next -->
+                    <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/home/index(num=${currentPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
         </main>
+
     </body>
 </html>

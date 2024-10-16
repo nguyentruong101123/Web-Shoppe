@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<main>
+	<div class="container-fluid chat-container">
+		<div class="sidebar">
+			<div class="search-bar">
+				<form action="/api/messages/search" method="get">
+					<input type="text" name="fullname" placeholder="Tìm kiếm liên hệ...">
+					<button type="submit">Tìm kiếm</button>
+				</form>
+			</div>
+		
+	<div class="contact-list" th:each="chat :${chatConversations}">
+		<div class="contact">
+			<!-- Hiển thị thông tin người đối diện -->
+			<span id="chatId" th:text="${chat.id}" style="display:none;"></span>
+
+			<!-- Kiểm tra người dùng hiện tại và hiển thị thông tin người đối diện -->
+			<img th:src="@{|/assets/images/avatas/${(account.username == chat.userOne.username) ? chat.userTwo.photo : chat.userOne.photo}|}" 
+			     alt="User" class="contact-img">
+
+			<div class="contact-details">
+				<a th:href="@{/api/messages/chat/{recipientId}(recipientId=${(account.username == chat.userOne.username) ? chat.userTwo.username : chat.userOne.username})}">
+					<span th:text="${(account.username == chat.userOne.username) ? chat.userTwo.fullname : chat.userOne.fullname}"></span>
+				</a>
+				<p class="contact-last-message">How are you?</p>
+		
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="chat-box" th:each="m :${message}">
+			<h5 class="text-center mt-3"></h5>
+			<div class="message-header">
+				<div class="sender">
+					<div class="profile">
+    			<!-- Hiển thị thông tin đối phương dựa trên người dùng hiện tại -->
+   			 <img alt="user" th:src="@{|/assets/images/avatas/${account.username == conversation.userOne.username ? conversation.userTwo.photo : conversation.userOne.photo}|}">
+    				<span th:text="${account.username == conversation.userOne.username ? conversation.userTwo.fullname : conversation.userOne.fullname}"></span>
+    
+    		<!-- Hidden field để lưu recipientId -->
+ 			   <input type="hidden" id="receiver" th:value="${account.username == conversation.userOne.username ? conversation.userTwo.username : conversation.userOne.username}">
+			</div>
+				</div>
+			</div>
+			<div class="messages" id="messages">
+				<div class="message">
+					<div class="sender">
+						<img alt="user" th:src="@{|/assets/images/avatas/${m.sender.photo}|}">
+					</div>
+					<div class="content ms-1" th:text="${m.content}"></div>
+				</div>
+			</div>
+			<form id="messageForm" name="messageForm">
+				<div class="input-group">
+					<input type="text" id="messageInput" autocomplete="off" class="form-control" placeholder="Type your message..." aria-label="Type your message...">
+					<button class="btn btn-primary" type="submit" id="sendMessageButton">Send</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</main>
+</body>
+<script type="text/javascript">
+console.log("this is chat");
+</script>
+</html>

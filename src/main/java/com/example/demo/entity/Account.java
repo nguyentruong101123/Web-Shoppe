@@ -66,6 +66,22 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Comment> comments;  // Danh sách bình luận của người dùng
 
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "userOne", fetch = FetchType.LAZY)
+    private List<ChatConversation> userOneChatConversations;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "userTwo", fetch = FetchType.LAZY)
+    private List<ChatConversation> userTwoChatConversations;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    private List<Message> messages;
+
+
 	public Account(Integer id) {
 		this.id = id;
 	}

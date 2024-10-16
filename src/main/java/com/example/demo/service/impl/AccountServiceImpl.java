@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -133,6 +134,16 @@ public class AccountServiceImpl implements AccountService {
 		} else {
 			throw new RuntimeException("Account not found with ID: " + account);
 		}
+	}
+
+	@Override
+	public List<Account> findByFullName(String fullname) {
+		return accountRepository.findByFullname(fullname);
+	}
+
+	@Override
+	public List<Account> getAll() {
+		return accountRepository.findAll();
 	}
 	
 }

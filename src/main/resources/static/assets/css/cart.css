@@ -51,16 +51,17 @@ body {
 }
 .select p{
     margin-top: 14px;
-    margin-left: 20px;
+    margin-left: 150px;
  	text-align: center;
 }
 .dongia, .soluong, .sotien, .thaotac {
     color: #abacab;
     font-size: 18px;
     text-align: center;
+
 }
 .container-main{
-    height: 300px;
+    height: 100%;
     background-color: #fff;
     margin-top: 10px;
     width: 100%; 
@@ -90,114 +91,163 @@ body {
     font-size: 15px;
     margin-left: 10px;
 }
-.product-container{
-    border-bottom: 2px solid #e8e8e8;
+.product-container {
     display: flex;
-    height: 100px auto;
-    margin-top: 25px;
-    width: auto;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #e8e8e8;
+    margin: 0;
+}
+
+.img-product {
+    display: flex;
+    align-items: center;
+     margin: 0;
+}
+
+.img-product img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.img-product p {
+	width : 60px;
+    font-size: 16px;
+    color: #555;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* Số dòng hiển thị trước khi cắt */
+    text-overflow: ellipsis;
+}
+
+.phanloai1 {
+    color: #abacab;
+    font-size: 15px;
+    margin-top: 10px;
     
 }
-.img-product{
-    display: flex;
-    margin-left: 20px;
-}
-.img-product p{
-    width: 300px;
+
+.dongia1, .soluong1, .sotien1, .thaotac1 {
     font-size: 15px;
-    margin-left: 4px;
-}
-.phanloai1{
-    color: #abacab;
     margin-top: 10px;
-    font-size: 15px;
-}
-.dongia1{
-    margin-left: 50px;
-    margin-top: 10px;
-    font-size: 15px;
-    display: flex;
-  
-}
-.soluong1{
-    margin-left: 60px;
-    margin-top: 10px;
-    font-size: 15px;
-}
-.sotien1{
-    margin-left: 100px;
-    margin-top: 10px;
-    font-size: 15px;
-    color: red;
-}
-.thaotac1{
-    margin-left: 60px;
-    font-size: 15px;    
     text-align: center;
-    width: 100px;
-    color:  rgb(238, 77, 45);
 }
-.thaotac1 a{
-    color: black;
-    text-decoration: none;
+
+.dongia1 strike {
+    color: #abacab;
 }
-.thaotac1 a:hover{
+
+.sotien1 {
     color: red;
+}
+
+/* Product Actions */
+.thaotac1 a {
+    color: #333;
     text-decoration: none;
+    margin-right: 100px;
 }
-.voucher{
+
+.thaotac1 a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+/* Voucher Section */
+.voucher, .ship {
     display: flex;
-    height: 40px;
-    font-size: 15px;
-    margin-top: 20px;
-    border-bottom: 2px solid #e8e8e8;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 16px;
 }
-.voucher img{
+
+.voucher img, .ship img {
     margin-left: 50px;
 }
-.moi{
-    width: 30px;
-    height: 20px;
+
+.moi {
     background-color: rgb(238, 77, 45);
     color: #fff;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 12px;
     margin-left: 10px;
 }
-.voucher p{
-    margin-left: 18px;
-}
-.voucher a{
-    text-decoration: none;
+
+.voucher a, .ship a {
     color: #05a;
     margin-left: 10px;
-  
+    text-decoration: none;
 }
-.ship{
+
+.voucher a:hover, .ship a:hover {
+    text-decoration: underline;
+}
+
+/* Payment Section */
+.muahang {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shoppe-voucher, .shoppe-xu {
     display: flex;
-    height: 40px;
-    font-size: 15px;
-    margin-top: 20px;
-   
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e8;
 }
-.ship img{
-    margin-left: 50px;
+
+.shoppe-voucher img, .shoppe-xu img {
+    margin-left: 20px;
 }
-.ship p{
-    margin-left: 18px;
-}
-.ship a{
-    text-decoration: none;
-    color: #05a;
+
+.shoppe-voucher p, .shoppe-xu p {
     margin-left: 10px;
- 
+    font-size: 16px;
 }
+
+.shoppe-voucher a, .shoppe-xu a {
+    margin-left: auto;
+    color: #05a;
+    text-decoration: none;
+}
+
+.shoppe-voucher a:hover, .shoppe-xu a:hover {
+    text-decoration: underline;
+}
+
+.all-muahang {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    font-size: 18px;
+}
+
+.all-muahang a {
+    background-color: rgb(238, 77, 45);
+    color: white;
+    padding: 10px 40px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.all-muahang a:hover {
+    background-color: #d9534f;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .select, .product-container {
-        grid-template-columns: 1fr 2fr 1fr 1fr;
-    }
-
-    .select p, .product-container p {
-        font-size: 12px;
+    .main-header {
+        flex-direction: column;
+        text-align: center;
     }
 
     .img-product img {
@@ -205,100 +255,20 @@ body {
         height: 60px;
     }
 
+    .product-container {
+        flex-direction: column;
+    }
+
     .img-product p {
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+    .favorite-product, .product-container {
+        flex-direction: column;
+        text-align: left;
     }
 
     .dongia1, .soluong1, .sotien1, .thaotac1 {
         font-size: 12px;
     }
-
-    .favorite-product p {
-        font-size: 12px;
-    }
-}
-.muahang{
-    margin-top: 10px;
-    height: 100%;
-    background-color: #fff;
-    width: 100%;
-}
-.shoppe-voucher{
-    height: 100%;
-    display: flex;
-    width: 100%; 
-    font-size: 15px;
-    border-bottom: 2px solid #e8e8e8;
-}
-.shoppe-voucher img{
-    margin-left: 700px;
-    margin-top: 10px;
-}
-.shoppe-voucher p{
-    margin-top: 10px;
-    margin-left: 10px;
-    font-size: 20px;
-}
-.shoppe-voucher a{
-    color: #05a;
-    text-decoration: none;
-    margin-left: 180px;
-    margin-top: 10px;
-}
-.shoppe-xu{
-    height: 100%;
-    display: flex;
-    width: 100%; 
-    font-size: 15px;
-    border-bottom: 2px solid #e8e8e8;
-    font-size: 15px;
-    
-}
-.shoppe-xu img{
-    margin-left: 20px;
-    margin-top: 5px;
-}
-.shoppe-xu p{
-    opacity: .2;
-    margin-top: 10px;
-}
-.ip-checkbox1{
-    margin-top: 10px;
-    margin-left: 600px;
-    width: 20px;
-    height: 20px;
-    opacity: .2;
-    cursor: not-allowed;
-    
-}
-.all-muahang{
-    height: 100%;
-    display: flex;
-    width: 100%; 
-    font-size: 15px;
-    font-size: 15px;
-}
-.all-muahang a{
-    width: 150px;
-    height: 30px;
-    padding: 12px 60px;
-    color: white;
-    background-color: rgb(238, 77, 45);
-    text-decoration: none;
-    margin-left: 30px;
-    border-radius: 2px;
-    
-}
-.muahang-last{
-    margin-top: 20px;
-}
-.all-muahang a:hover{
-    background-color: rgb(238, 77, 45);
-    color: white;
-    opacity: .8;
-    
-}
-.all-muahang p{
-    margin-top: 20px;
-    margin-left: 10px;
 }

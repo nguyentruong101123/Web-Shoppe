@@ -138,6 +138,29 @@ create table ProductImages(
     foreign key(ProductId) references Products(Id),
     foreign key(AttributeId) references ProductAttributes(Id)
 );
+CREATE TABLE chat_conversation (
+    id bigint IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    user_one_id varchar(20) NOT NULL, -- Thay đổi thành VARCHAR
+    user_two_id varchar(20) NOT NULL, -- Thay đổi thành VARCHAR
+    created_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (user_one_id) REFERENCES Account(Username), -- Tham chiếu đúng kiểu dữ liệu
+    FOREIGN KEY (user_two_id) REFERENCES Account(Username)  -- Tham chiếu đúng kiểu dữ liệu
+);
+
+-- Bảng message
+CREATE TABLE message (
+    id bigint IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    chat_conversation_id bigint NOT NULL, -- Giữ nguyên INT vì tham chiếu đến id của chat_conversation
+    sender_id varchar(20) NOT NULL, -- Thay đổi thành VARCHAR
+    content TEXT NOT NULL,
+	image nvarchar(255),
+    sent_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (chat_conversation_id) REFERENCES chat_conversation(id), -- Giữ nguyên vì là tham chiếu INT
+    FOREIGN KEY (sender_id) REFERENCES Account(Username)  -- Tham chiếu đúng kiểu dữ liệu
+);
+
+SELECT Username FROM Account WHERE Username IN ('truong1', 'truong');
+
 
 alter table Products
 add UserId int not null, -- Thêm cột UserId để lưu thông tin người đăng

@@ -1,89 +1,60 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{/layout/index::dynamic(~{::main})}">
+    th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng</title>
+    <link rel="stylesheet" href="/assets/css/style.css"> <!-- Đường dẫn đến tệp CSS của bạn -->
+</head>
 <body>
-	<main>
-		<div class="main-header">
-			<img width="30px" height="30px" src="/assets/images/giohang/freeship.png" alt="">
-			<p>Nhấn vào mục Mã giảm giá ở cuối trang để hưởng miễn phí vận
-				chuyển bạn nhé!</p>
-		</div>
-		<div class="select">
-			<input class="ip-checkbox" type="checkbox" name="sanpham">
-			<p class="sanpham">Sản Phẩm</p>
-			<p class="dongia">Đơn Giá</p>
-			<p class="soluong">Số Lượng</p>
-			<p class="sotien">Số Tiền</p>
-			<p class="thaotac">Thao Tác</p>
-		</div>
-		<div class="container-main">
-			<div class="favorite-product">
-				<input class="ip-checkbox" type="checkbox" name="sanpham">
-				<div class="favorite">Yêu thích</div>
-				<p>Bobe Store 688</p>
-			</div>
-			<div class="product-container">
-				<input class="ip-checkbox" type="checkbox" name="sanpham">
-				<div class="img-product">
-					<img width="80px" height="80px" src="/assets/images/giohang/anh1.jpg" alt="">
-					<p>
-						Giày Converse chuck 1970s thấp cổ màu đen ( Tặng túi cv + bill + t
-						<img width="200px" height="20px" src="/assets/images/giohang/anh2.png" alt="">
-					</p>
-				</div>
-				<p class="phanloai1">Phân Loại Hàng</p>
-				<p class="dongia1">
-					<u style="font-size: 10px; color: #abacab;">đ</u><strike
-						style="color: #abacab;">950.000đ</strike> <u
-						style="font-size: 10px; margin-left: 10px;">đ</u>150.000đ
-				</p>
-				<p class="soluong1">1</p>
-				<p class="sotien1">
-					<u style="font-size: 10px;">đ</u>150.000đ
-				</p>
-				<p class="thaotac1">
-					<a href="#1">Xóa</a><br>Tìm sản phẩm tương tự
-				</p>
-			</div>
-			<div class="voucher">
-				<img width="25px" height="20px" src="/assets/images/giohang/voucher.png" alt="">
-				<p>Shop Voucher giảm đến 80%</p>
-				<div class="moi">Mới</div>
-				<a href="#1">Xem thêm voucher</a>
-			</div>
-			<div class="ship">
-				<img idth="25px" height="20px" src="/assets/images/giohang/ship.png" alt="">
-				<p>Giảm ₫15.000 phí vận chuyển đơn tối thiểu ₫50.000; Giảm
-					₫25.000 phí vận chuyển đơn tối thiểu ₫99.000</p>
-				<a href="#1">Tìm hiểu thêm</a>
-			</div>
-		</div>
+    <main>
+        <div class="main-header">
+            <img width="30px" height="30px" src="/assets/images/giohang/freeship.png" alt="">
+            <p>Nhấn vào mục Mã giảm giá ở cuối trang để hưởng miễn phí vận chuyển bạn nhé!</p>
+        </div>
+        <div class="select">
+            <input class="ip-checkbox" type="checkbox" name="sanpham">
+            <p class="sanpham">Sản Phẩm</p>
+            <p class="dongia">Đơn Giá</p>
+            <p class="soluong">Số Lượng</p>
+            <p class="sotien">Số Tiền</p>
+            <p class="thaotac">Thao Tác</p>
+        </div>
+        
+        <div class="container-main">
+   
+        </div>
 
-
-		<!-- Tổng tiền và nút mua hàng -->
-		<div class="muahang">
-        <div class="shoppe-voucher">
-           <img width="25px" height="20px" src="/assets/images/giohang/voucher.png" alt=""> <p>Shopee Voucher
-            </p>
-            <a href="#1">Chọn hoặc nhập mã</a>
+        <div class="muahang">
+            <div class="shoppe-voucher">
+                <img width="25px" height="20px" src="/assets/images/giohang/voucher.png" alt=""> 
+                <p>Shopee Voucher</p>
+                <a href="#1">Chọn hoặc nhập mã</a>
+            </div>
+            <div class="shoppe-xu">
+                <input class="ip-checkbox1" type="checkbox" name="sanpham">
+                <img width="35px" height="30px" src="/assets/images/giohang/xu.png" alt="">
+                <p>Shoppe Xu</p>
+                <p style="margin-left: 20px;">Bạn chưa chọn sản phẩm nào</p>
+                <p style="margin-left: 180px;">-<u style="font-size: 10px; margin-left: 10px;">đ</u>0đ</p> 
+            </div>
+            <div class="all-muahang">
+                <input style="margin-top: 5px;" class="ip-checkbox" type="checkbox" name="sanpham">
+                <p>Chọn Tất Cả(1)</p>
+                <p style="margin-left: 20px;">Xóa</p>
+                <p style="margin-left: 40px;">Bỏ sản phẩm không hoạt động</p>
+                <p style="color: red; margin-left: 20px;">Lưu vào mục Đã thích</p>
+                <div>
+    		    <span>Tổng thanh toán(1 sản phẩm):</span> 
+     		   <span style="color: red; font-size: 20px;">
+            <u style="font-size: 10px;">đ</u>0
+     		   </span>
+ 		   </div>
+                <div class="muahang-last"><a href="#1">Mua Hàng</a></div>
+            </div>
         </div>
-        <div class="shoppe-xu">
-            <input class="ip-checkbox1" type="checkbox" name="sanpham">
-            <img width="35px" height="30px" src="/assets/images/giohang/xu.png" alt=""><p>Shoppe Xu</p>
-            <p style="margin-left: 20px;">Bạn chưa chọn sản phẩm nào</p>
-          <p style="margin-left: 180px;">-<u style="font-size: 10px; margin-left: 10px;">đ</u>0đ</p> 
-        </div>
-        <div class="all-muahang">
-            <input style="margin-top: 5px;" class="ip-checkbox" type="checkbox" name="sanpham">
-            <p>Chọn Tất Cả(50)</p>
-            <p style="margin-left: 20px;">Xóa</p>
-            <p style="margin-left: 40px;">Bỏ sản phẩm không hoạt động</p>
-            <p style="color: red; margin-left: 20px;">Lưu vào mục Đã thích</p>
-            <p style="margin-left: 60px;">Tổng thanh toán(0 sản phẩm): <p style="color: red; font-size: 20px;"><u style="font-size: 10px;">đ</u>0</p></p>
-            <div class="muahang-last"><a href="#1">Mua Hàng</a></div>
-        </div>
-    </div>
-	</main>
+    </main>
 
 </body>
 </html>

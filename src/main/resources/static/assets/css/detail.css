@@ -406,4 +406,9 @@
     opacity: 0.5; /* Làm mờ các kích thước không có */
     pointer-events: none; /* Không cho phép click vào kích thước đã làm mờ */
 }
+.product-message {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
 

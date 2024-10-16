@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByCategoryIdAndProductImageId(Integer categoryId, Integer productImageId);
 
 	@Query("SELECT p FROM Product p JOIN FETCH p.productImages pi WHERE p.category.id = ?1 AND pi.imageType = 'main'")
-	List<Product> findByCategoryId(Integer categoryId, Pageable pageable);
+	Page<Product> findByCategoryId(Integer categoryId, Pageable pageable);
 	
 
 

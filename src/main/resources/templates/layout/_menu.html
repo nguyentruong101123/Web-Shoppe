@@ -16,8 +16,13 @@
 			<button type="submit">
 				<i class="fa fa-search"></i> Search
 			</button>
+			
 		</div>
 		<div class="icons">
+			<a th:href="@{/api/messages/chat}" title="Cart"><i class="bi bi-chat-left-dots-fill"></i></a>
+			</div>
+			
+			<div class="icons">
 			<a th:href="@{/cart/sale}" title="Cart"><i
 				class="fa fa-shopping-cart"></i></a>
 			<th:block th:if="${#authorization.expression('isAuthenticated')}">
@@ -34,9 +39,7 @@
 							href="/auth/logoff" title="Logout">Đăng xuất</a>
 					</div>
 				</div>
-			</th:block>
-			
-
+			</th:block>			
 			<th:block th:unless="${#authorization.expression('isAuthenticated')}">
 				<!-- Nội dung cho người dùng chưa đăng nhập -->
 				<a href="/auth/login/form" title="Login"><i class="fa fa-user"></i></a>

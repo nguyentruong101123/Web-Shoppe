@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> findByCategoryId(Integer categoryId,Pageable pageable) {
+	public Page<Product> findByCategoryId(Integer categoryId,Pageable pageable) {
 		return productRepository.findByCategoryId(categoryId,pageable);
 	}
 
@@ -44,8 +45,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> findByCategoryIdWithMainImage(Integer categoryId, Pageable pageable) {
-		List<Product> products = productRepository.findByCategoryId(categoryId, pageable);
+	public Page<Product> findByCategoryIdWithMainImage(Integer categoryId, Pageable pageable) {
+		Page<Product> products = productRepository.findByCategoryId(categoryId, pageable);
 		for (Product product : products) {
 			ProductImage mainImage = productImageRepository.findMainImageByProductId(product.getId());
 			product.setMainImage(mainImage);
@@ -54,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getAllWithMainImage(Pageable pageable) {
+	public Page<Product> getAllWithMainImage(Pageable pageable) {
 		Page<Product> productPage = productRepository.findAll(pageable);
 	    List<Product> products = productPage.getContent();  // Chuyển thành List<Product>
 
@@ -64,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 	        product.setMainImage(mainImage);
 	    }
 
-	    return products;
+	    return new PageImpl<>(products, pageable, productPage.getTotalElements());
 	}
 
 	@Override

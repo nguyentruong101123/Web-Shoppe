@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,33 +71,43 @@ public class ProductController {
 	private static final String UPLOADED_FOLDER = "src/main/resources/static/assets/images/avatas/";
 
 	@RequestMapping("/index")
-	public String home(Model model,
-	        @RequestParam(value = "categoryId", required = false, defaultValue = "0") Integer categoryId,
-	        @RequestParam(defaultValue = "0") Integer pageNum) {
-
+	public String home(Model model, @RequestParam(defaultValue = "1") Integer num) {
 	    // Thêm thông tin người dùng vào model
-		
 	    services.addUserDetailsToModel(model);
 	    model.addAttribute("hideHeader", false);
 
 	    // Tạo Pageable object với thông tin trang hiện tại và kích thước
-	   
-	    // Khởi tạo Page<Product> dựa trên categoryId
-	    Integer size = 30;
-    	Pageable pageable = PageRequest.of(pageNum, size);
-	    List<Product> products;
-	    if (categoryId != null && categoryId != 0) {
-	        products = productService.findByCategoryIdWithMainImage(categoryId, pageable);
-	    } else {	
-	        products = productService.getAllWithMainImage(pageable);
-	       
-	    }
+		// Khởi tạo Page<Product> dựa trên categoryId
+	    Integer size = 12;
+    	Pageable pageable = PageRequest.of(num-1, size);
+    	Page<Product> products;
+
+		products = productService.getAllWithMainImage(pageable);
 
 	    // Thêm danh sách sản phẩm vào model
-	    model.addAttribute("products", products);
-	    model.addAttribute("pageNum", pageNum);
-	    model.addAttribute("totalPages", productService.getTotalPages(size));
-	    return "product/list";
+		// Thêm danh sách sản phẩm vào model
+		model.addAttribute("products", products);
+		model.addAttribute("currentPage", num);                         // Trang hiện tại
+		model.addAttribute("totalPages", products.getTotalPages());      // Tổng số trang
+
+		return "product/list";
+	}
+	
+
+	@GetMapping("/service/product")
+	public String getProduct(Model model, @RequestParam(defaultValue = "1") Integer num) {
+		model.addAttribute("hideHeader", true);
+		services.addUserDetailsToModel(model);
+
+		Integer size = 12;
+		Pageable pageable = PageRequest.of(num - 1, size);
+		Page<Product> products = productService.getAllWithMainImage(pageable);
+
+		model.addAttribute("products", products);
+		model.addAttribute("currentPage", num);
+		model.addAttribute("totalPages", products.getTotalPages());
+
+		return "product/create-product";
 	}
 
 	

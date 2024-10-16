@@ -3,6 +3,7 @@ package com.example.demo.services;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,5 +24,9 @@ public interface AccountService {
 	public Account findById(Integer Id);
 	
 	public Account update(Account account) throws IOException;
+	
+	List<Account> findByFullName(String fullname);
+	
+	List<Account> getAll();
 	
 }
