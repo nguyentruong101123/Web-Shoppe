@@ -15,6 +15,9 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Inte
 	@Query("SELECT pi FROM ProductImage pi WHERE pi.product.id = :productId AND pi.attribute.id IS NULL AND pi.imageType = 'main'")
 	ProductImage getMainImageByProductId(Integer productId);
 
+	@Query("select pi from ProductImage pi where pi.attribute.id = :productAttributeId and pi.imageType = 'detail'")
+	List<ProductImage> findByAttributeId(@Param("productAttributeId") Integer productAttributeId);
+
 	List<ProductImage> findByProductId(Integer productId);
 	
 	@Query("SELECT pi FROM ProductImage pi WHERE pi.product.id = :productId AND pi.imageType = 'main'")

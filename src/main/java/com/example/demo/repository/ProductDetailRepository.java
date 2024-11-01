@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductAttribute,
             + "LEFT JOIN FETCH pa.productImages img "
             + "WHERE p.id = :productId")
 	    List<ProductAttribute> findByProductId(@Param("productId") Integer productId);
+
+    Optional<ProductAttribute> findById(Integer id);
 	
 }

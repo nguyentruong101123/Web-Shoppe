@@ -45,36 +45,6 @@ public class ProductAttribute implements Serializable {
     @Column(nullable = false)
     private Double price;
 
-    @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> productImages;
 }
-
-//@SuppressWarnings("serial")
-//@Data
-//@Entity
-//@Table(name = "ProductAttributes")
-//public class ProductAttribute implements Serializable {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "productId")
-//    private Product product;
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "sizeId")
-//    private Size size;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "colorId")
-//    private Color color;
-//
-//    private Integer stock;
-//    private Double price;
-//
-//    // Liên kết với ProductImage nếu có
-//    @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY)
-//    private List<ProductImage> productImages;
-//}

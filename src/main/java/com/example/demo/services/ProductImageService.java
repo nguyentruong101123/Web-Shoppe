@@ -6,9 +6,15 @@ import com.example.demo.entity.ProductImage;
 
 public interface ProductImageService {
 	
-	public List<ProductImage> getImagesByProductId(Integer productId);
+	List<ProductImage> getImagesByProductId(Integer productId);
 	
-	public ProductImage getMainImageByProductId(Integer productId);
+	ProductImage getMainImageByProductId(Integer productId);
 	
-	public ProductImage createProductImage(ProductImage productImage);
+	ProductImage createProductImage(ProductImage productImage);
+
+	ProductImage updateProductImage(ProductImage productImage);
+
+	List<ProductImage> findByProductAttributeId(Integer productId);
+
+	ProductImage deleteProductImage(Integer id);
 }

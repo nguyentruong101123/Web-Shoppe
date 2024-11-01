@@ -6,7 +6,6 @@
 	<div class="profile-container">
 		<div class="profile">
 			<div class="profile-header" onclick="toggleProfileInfo()">
-
 				<img th:src="@{|/assets/images/avatas/${account.photo}|}" alt="Profile Picture">
 				<div class="profile-details">
 					<h2 th:text="${account.fullname}"></h2>
@@ -31,45 +30,26 @@
   						  Cập nhật
 				</button>
 				</div>
-		
 			<div class="profile-section">
-					 <th:block th:if="${userProfile != null}">
         				<h3>Địa chỉ</h3>
 						<ul>
-						<li><strong>Địa chỉ:</strong> <span th:text="${userProfile.streetAddress}"></span></li>
-						<li><strong>Thành phố:</strong> <span th:text="${userProfile.city}"></span></li>
-						<li><strong>State:</strong> <span th:text="${userProfile.state}"></span></li>
-						<li><strong>Zip Code:</strong> <span th:text="${userProfile.zipCode}"></span></li>
-						<li><strong>Quốc gia:</strong> <span th:text="${userProfile.country}"></span></li>
-						<li><strong>Số điện thoại:</strong> <span th:text="${userProfile.phoneNumber}"></span></li>
-						<li><strong>Ngày sinh:</strong> <span th:text="${#dates.format(userProfile.dateOfBirth, 'yyyy-MM-dd')}"></span></li>
-						<li><strong>Nơi sinh:</strong> <span th:text="${userProfile.placeOfBirth}"></span></li>
-					</ul>
-        			 <div th:if="${userProfile != null}">
-				 	<button type="button" th:href="@{/account/update/address/{userId}(userId=${userProfile.userId})}" class="edit-button" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-						Sửa thông tin
-					</button>
-					</div>
-						 </th:block>
-						 
-						  <th:block th:unless="${userProfile != null}">
-        				<h3>Địa chỉ</h3>
-						<ul>
-						<li><strong>Địa chỉ:</strong></li>
-						<li><strong>Thành phố:</strong></li>
-						<li><strong>State:</strong></li>
-						<li><strong>Zip Code:</strong></li>
-						<li><strong>Quốc gia:</strong></li>
-						<li><strong>Số điện thoại:</strong></li>
-						<li><strong>Ngày sinh:</strong></li>
-						<li><strong>Nơi sinh:</strong></li>
-					</ul>
-						<div th:if="${userProfile == null}">
-				<button type="button" class="edit-button" th:href="@{/account/update/address/{userId}(userId=${userId})}" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-						Thêm thông tin
-					</button>
-						</div>
-						 </th:block>
+							<li><strong>Địa chỉ:</strong> <span th:text="${userProfile.streetAddress != null ? userProfile.streetAddress : ''}"></span></li>
+							<li><strong>Thành phố:</strong> <span th:text="${userProfile.city != null ? userProfile.city : ''}"></span></li>
+							<li><strong>Tiểu bang:</strong> <span th:text="${userProfile.state != null ? userProfile.state : ''}"></span></li>
+							<li><strong>Mã bưu điện:</strong> <span th:text="${userProfile.zipCode != null ? userProfile.zipCode : ''}"></span></li>
+							<li><strong>Quốc gia:</strong> <span th:text="${userProfile.country != null ? userProfile.country : ''}"></span></li>
+							<li><strong>Số điện thoại:</strong> <span th:text="${userProfile.phoneNumber != null ? userProfile.phoneNumber : ''}"></span></li>
+							<li><strong>Ngày sinh:</strong> <span th:text="${userProfile.dateOfBirth != null ? #dates.format(userProfile.dateOfBirth, 'yyyy-MM-dd') : ''}"></span></li>
+							<li><strong>Nơi sinh:</strong> <span th:text="${userProfile.placeOfBirth != null ? userProfile.placeOfBirth : ''}"></span></li>
+
+						</ul>
+
+				<button type="button" th:href="@{/account/update/address/{userId}(userId=${userProfile.userId})}" class="edit-button" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+					Sửa thông tin
+				</button>
+				<button type="button" class="edit-button" th:href="@{/account/create/address}" data-bs-toggle="modal" data-bs-target="#createAddressModal">
+					Thêm thông tin
+				</button>
 				</div>
 			
 			
@@ -83,15 +63,15 @@
 					</p>
 					<button class="edit-button">Change Password</button>
 				</div>
-				<div class="profile-section">
-					<h3>Wishlist</h3>
-					<ul>
-						<li>Product 1</li>
-						<li>Product 2</li>
-						<li>Product 3</li>
-					</ul>
-					<button class="view-all-button">View Wishlist</button>
-				</div>
+<!--				<div class="profile-section">-->
+<!--					<h3>Wishlist</h3>-->
+<!--					<ul>-->
+<!--						<li>Product 1</li>-->
+<!--						<li>Product 2</li>-->
+<!--						<li>Product 3</li>-->
+<!--					</ul>-->
+<!--					<button class="view-all-button">View Wishlist</button>-->
+<!--				</div>-->
 			</div>
 		</div>
 	</div>
@@ -115,7 +95,7 @@
     </div>
 
     <div class="mb-3">
-        <input type="text" class="form-control" id="username" th:field="*{username}" readonly="readonly"/ disabled="disabled">
+        <input type="text" class="form-control" id="username" th:field="*{username}" readonly="readonly" disabled="disabled">
     </div>
 
     <div class="mb-3">
@@ -167,7 +147,6 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				 <th:block th:if="${userProfile != null}">
 					<form action="#" th:action="@{/account/update/address}" th:object="${userProfile}" method="post">
 					  <input type="hidden" th:field="*{userId}" />
     		<div class="mb-3">
@@ -204,52 +183,71 @@
   		  </div>		   
   			  <button type="submit" class="btn btn-primary">Lưu thông tin</button>
 		</form>							
-				</th:block>
-				
-				 <th:block th:unless="${userProfile != null}">
-					<form action="#" th:action="@{/account/update/address}" th:object="${userProfile}" method="post">
-					  <input type="hidden" th:field="*{userId}" />
-    		<div class="mb-3">
-       			 <label for="streetAddress" class="form-label">Địa chỉ:</label>
-       			 <input type="text" class="form-control" id="streetAddress" th:field="*{streetAddress}">
-   			 </div>
-   		 <div class="mb-3">
-     		   <label for="city" class="form-label">Thành phố:</label>
-      		  <input type="text" class="form-control" id="city" th:field="*{city}">
-   		 </div>
-  		  <div class="mb-3">
-     	   <label for="state" class="form-label">State:</label>
-     	   <input type="text" class="form-control" id="state" th:field="*{state}">
-    </div>
-  	  <div class="mb-3">
-      			  <label for="zipCode" class="form-label">Zip Code:</label>
-     			   <input type="text" class="form-control" id="zipCode" th:field="*{zipCode}">
-   		 </div>
-   			 <div class="mb-3">
-     		   <label for="country" class="form-label">Quốc gia:</label>
-     		   <input type="text" class="form-control" id="country" th:field="*{country}">
-   		 </div>
-  		  <div class="mb-3">
- 		       <label for="phoneNumber" class="form-label">Số điện thoại:</label>
-  		      <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}">
-  		  </div>
-		    <div class="mb-3">
-    		    <label for="dateOfBirth" class="form-label">Ngày sinh:</label>
-    		    <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}">
-   			 </div>
-   			 <div class="mb-3">	
-     		   <label for="placeOfBirth" class="form-label">Nơi sinh:</label>
-			        <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}">
-  		  </div>		   
-  			  <button type="submit" class="btn btn-primary">Lưu thông tin</button>
-		</form>							
-				</th:block>
+
+
 				</div>
 				
 			</div>
 		</div>
-	</div>  
-		
+	</div>
+
+
+
+
+	<div class="modal fade" id="createAddressModal" tabindex="-1" aria-labelledby="createAddressModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="createAddressModalLabel">Edit Address</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+						<form th:action="@{/account/create/address}" method="post">
+							<input type="hidden" name="accountId" th:value="${account.id}"/>
+							<div class="mb-3">
+								<label for="streetAddress" class="form-label">Địa chỉ:</label>
+								<input type="text" class="form-control" name="streetAddress">
+							</div>
+							<div class="mb-3">
+								<label for="city" class="form-label">Thành phố:</label>
+								<input type="text" class="form-control" name="city">
+							</div>
+							<div class="mb-3">
+								<label for="state" class="form-label">State:</label>
+								<input type="text" class="form-control" name="state">
+							</div>
+							<div class="mb-3">
+								<label for="zipCode" class="form-label">Zip Code:</label>
+								<input type="text" class="form-control" name="zipCode">
+							</div>
+							<div class="mb-3">
+								<label for="country" class="form-label">Quốc gia:</label>
+								<input type="text" class="form-control" name="country">
+							</div>
+							<div class="mb-3">
+								<label for="phoneNumber" class="form-label">Số điện thoại:</label>
+								<input type="text" class="form-control" name="phoneNumber">
+							</div>
+							<div class="mb-3">
+								<label for="dateOfBirth" class="form-label">Ngày sinh:</label>
+								<input type="date" class="form-control" name="dateOfBirth">
+							</div>
+							<div class="mb-3">
+								<label for="placeOfBirth" class="form-label">Nơi sinh:</label>
+								<input type="text" class="form-control" name="placeOfBirth">
+							</div>
+							<button type="submit" class="btn btn-primary">Lưu thông tin</button>
+						</form>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
 	<script>
 		function toggleProfileInfo() {
 			var profileInfo = document.getElementById('profileInfo');

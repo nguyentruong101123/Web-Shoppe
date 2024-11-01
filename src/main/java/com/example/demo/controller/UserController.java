@@ -6,9 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -92,33 +94,46 @@ public class UserController {
 			model.addAttribute("errorMessage", "Validation failed");
 			return "profile/user";
 		}
-		if (userProfile.getUserId() == null) {
-			  profileServiceImpl.createUserProfile(userProfile);
-		}
+
 		profileServiceImpl.update(userProfile.getUserId(), userProfile);
 		return "redirect:/account/user/profile/" + userProfile.getUserId();
 	}
 	
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-	    binder.setDisallowedFields("photo");
-	}
+
 	
 	@PostMapping("/create/address")
-	public String createUser(@ModelAttribute @Valid UserProfile profile, BindingResult bindingResult, Model model)
+	public String createUser(@RequestParam("accountId") Integer accountId,
+							 @RequestParam("streetAddress") String streetAddress,
+							 @RequestParam("city") String city,
+							 @RequestParam("state") String state,
+							 @RequestParam("zipCode") String zipCode,
+							 @RequestParam("country") String country,
+							 @RequestParam("phoneNumber") String phoneNumber,
+							 @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
+							 @RequestParam("placeOfBirth") String placeOfBirth,
+						 	 UserProfile profile, Model model)
 	        throws Exception {
-	    if (bindingResult.hasErrors()) {
-	        bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
-	        model.addAttribute("errorMessage", "Validation failed");
-	        return "profile/user";
-	    }
 
-	    if (profile.getUserId() == null) {
+
+		if (profile.getDateOfBirth() == null) {
+			model.addAttribute("errorMessage", "Date of Birth is required");
+			return "profile/user";
+		}
+	    if (accountId == null) {
 	        // Nếu không có userId thì tạo mới hồ sơ người dùng
-	        profileServiceImpl.createUserProfile(profile); // Phương thức này cần tồn tại trong Service để lưu đối tượng mới
+			throw new Exception("Account Id is required");
 	    } else {
 	        // Nếu đã có userId thì cập nhật thông tin hiện có
-	        profileServiceImpl.update(profile.getUserId(), profile);
+			profile.setUserId(accountId);
+			profile.setStreetAddress(streetAddress);
+			profile.setCity(city);
+			profile.setState(state);
+			profile.setZipCode(zipCode);
+			profile.setCountry(country);
+			profile.setPhoneNumber(phoneNumber);
+			profile.setDateOfBirth(dateOfBirth);
+			profile.setPlaceOfBirth(placeOfBirth);
+			profileServiceImpl.createUserProfile(profile); // Phương thức này cần tồn tại trong Service để lưu đối tượng mới
 	    }
 
 	    return "redirect:/account/user/profile/" + profile.getUserId();
@@ -180,46 +195,7 @@ public class UserController {
 
 
 
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ModelAndView handleValidationExceptions(ConstraintViolationException ex) {
-		ModelAndView mav = new ModelAndView("error");
-		mav.addObject("message", ex.getMessage());
-		return mav;
-	}
 
 }
 
 
-//@PostMapping("/update/user")
-//public String updateAccount(@ModelAttribute @Valid Account account, BindingResult bindingResult, Model model) {
-//    if (bindingResult.hasErrors()) {
-//        // In ra lỗi cụ thể
-//        bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
-//        
-//        model.addAttribute("errorMessage", "Validation failed. Please correct the errors below.");
-//        return "profile/user"; // Trở về trang chỉnh sửa khi có lỗi
-//    }
-//    
-//    if (account.getId() == null) {
-//        model.addAttribute("errorMessage", "User ID must not be null.");
-//        return "profile/user";
-//    }
-//    
-//    try {
-//        Account updatedAccount = accountService.updateAccount(account.getId(), account);
-//        model.addAttribute("successMessage", "Profile updated successfully.");
-//        return "redirect:/home/index";
-//    } catch (Exception e) {
-//        model.addAttribute("errorMessage", "An error occurred while updating the profile: " + e.getMessage());
-//        return "profile/user";
-//    }
-//}
-
-//@GetMapping("/profile/{id}")
-//public String getAccountByUsername(@PathVariable Integer id, Model model) {
-//	Account account = (Account) accountService.findById(id);
-//	if (account != null) {
-//		model.addAttribute("account", account);
-//	}
-//	return "profile/user"; // Tên view Thymeleaf
-//}

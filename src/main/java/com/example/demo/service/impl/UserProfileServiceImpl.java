@@ -1,6 +1,8 @@
 package com.example.demo.service.impl;
 
 
+import com.example.demo.entity.Account;
+import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	UserProfileRepository profileRepository;
+
+	@Autowired
+	AccountRepository accountRepository;
 
 	@Override
 	public UserProfile getUserProfileByUserId(Integer userId) {
@@ -41,6 +46,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public UserProfile createUserProfile(UserProfile userProfile) {
+		Account account = accountRepository.findById(userProfile.getUserId()).orElse(null);
+		if (account == null) {
+			throw new IllegalArgumentException("Account not found");
+		}
+		userProfile.setUserId(account.getId()); // Đảm bảo UserId được thiết lập
 		return profileRepository.save(userProfile);
 	}
 

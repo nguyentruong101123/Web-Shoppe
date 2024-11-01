@@ -1,7 +1,10 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.example.demo.entity.Account;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,8 +43,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProductById(Integer productId) {
-		return productRepository.findById(productId)
+		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
+
+		// Lấy hình ảnh chính cho sản phẩm
+		ProductImage mainImage = productImageRepository.findMainImageByProductId(product.getId());
+		product.setMainImage(mainImage);
+
+		return product; // Trả về sản phẩm với hình ảnh chính
 	}
 
 	@Override
@@ -69,8 +78,43 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public Page<Product> findByUser(Account account, Pageable pageable) {
+		Page<Product> productPage = productRepository.findByUser(account ,pageable);
+		List<Product> products = productPage.getContent();  // Chuyển thành List<Product>
+
+		// Thiết lập ảnh chính cho từng sản phẩm
+		for (Product product : products) {
+			ProductImage mainImage = productImageRepository.findMainImageByProductId(product.getId());
+			product.setMainImage(mainImage);
+		}
+
+		return new PageImpl<>(products, pageable, productPage.getTotalElements());
+	}
+
+	@Override
 	public Product createProduct(Product product) {
 		return productRepository.save(product);
+	}
+
+	@Override
+	public Product update(Product product) {
+		Optional<Product> optionalProduct = productRepository.findById(product.getId());
+
+		// Kiểm tra nếu sản phẩm tồn tại
+		if (!optionalProduct.isPresent()) {
+			throw new EntityNotFoundException("Product with ID " + product.getId() + " not found");
+		}
+
+		Product newProduct = optionalProduct.get();
+		newProduct.setCategory(product.getCategory());
+		newProduct.setName(product.getName());
+		newProduct.setDescription(product.getDescription());
+		newProduct.setPrice(product.getPrice());
+		if (product.getMainImage() != null) {
+			newProduct.setMainImage(product.getMainImage());
+		}
+		return productRepository.save(newProduct);
+
 	}
 
 	@Override
@@ -78,5 +122,13 @@ public class ProductServiceImpl implements ProductService {
         long totalProducts = productRepository.count(); // Lấy tổng số sản phẩm
         return (int) Math.ceil((double) totalProducts / pageSize); // Tính tổng số trang
     }
+
+	@Override
+	public Product delete(Integer productId) {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));;
+		productRepository.delete(product);
+		return product;
+	}
 
 }

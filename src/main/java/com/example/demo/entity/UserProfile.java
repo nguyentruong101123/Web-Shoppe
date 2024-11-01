@@ -27,7 +27,6 @@ import lombok.ToString;
 @Table(name = "UserDetails")
 public class UserProfile implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserId")
     private Integer userId;
 

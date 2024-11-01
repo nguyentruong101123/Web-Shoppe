@@ -47,6 +47,7 @@ public class ProductDetailController {
 	    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
 	    return currencyFormatter.format(amount);
 	}
+
 	
 	@GetMapping("/details/{id}")
 	public String productDetail(@PathVariable("id") Integer productId, Model model) {
@@ -97,5 +98,6 @@ public class ProductDetailController {
 		return "product/detail";
 		
 	}
+
 
 }

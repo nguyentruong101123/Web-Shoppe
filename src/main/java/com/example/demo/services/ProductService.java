@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import java.util.List;
 
+import com.example.demo.entity.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
@@ -10,20 +11,26 @@ import com.example.demo.entity.Product;
 
 public interface ProductService {
 	
-	public List<Product> findByCategoryIdAndProductImageId(Integer categoryId, Integer productImageId);
+	List<Product> findByCategoryIdAndProductImageId(Integer categoryId, Integer productImageId);
 	
-	public Page<Product> findByCategoryId(Integer categoryId, Pageable pageable);
+	Page<Product> findByCategoryId(Integer categoryId, Pageable pageable);
 	
-	public List<Product> getAll();
+	List<Product> getAll();
 	
-	public Product getProductById(Integer productId);
+	Product getProductById(Integer productId);
 	
-	public Page<Product> findByCategoryIdWithMainImage(Integer categoryId, Pageable pageable);
+	Page<Product> findByCategoryIdWithMainImage(Integer categoryId, Pageable pageable);
 
-	public Page<Product> getAllWithMainImage(Pageable pageable);
+	Page<Product> getAllWithMainImage(Pageable pageable);
+
+	Page<Product> findByUser(Account account, Pageable pageable);
 	
 	@Secured("hasRole('ADMIN')")
-	public Product createProduct(Product product);
+	Product createProduct(Product product);
+
+	Product update(Product product);
 	
-	int getTotalPages(int pageSize); 
+	int getTotalPages(int pageSize);
+
+	Product delete (Integer productId);
 }

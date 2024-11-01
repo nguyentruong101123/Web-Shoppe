@@ -30,4 +30,24 @@ public class ProductImageServiceImpl implements ProductImageService {
 		return productImageRepository.save(productImage);
 	}
 
+	@Override
+	public ProductImage updateProductImage(ProductImage productImage) {
+		ProductImage productImageId = productImageRepository.findMainImageByProductId(productImage.getProduct().getId());
+		productImage.setImage(productImageId.getImage());
+		return productImageRepository.save(productImage);
+	}
+
+	@Override
+	public List<ProductImage> findByProductAttributeId(Integer productId) {
+		return productImageRepository.findByAttributeId(productId);
+	}
+
+	@Override
+	public ProductImage deleteProductImage(Integer id) {
+		ProductImage productImage = productImageRepository.findById(id).get();
+		productImageRepository.delete(productImage);
+		return productImage;
+	}
+
+
 }

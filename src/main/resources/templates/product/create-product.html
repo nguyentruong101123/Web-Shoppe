@@ -12,24 +12,64 @@
 <body th:replace="~{/layout/index::dynamic(~{::main})}">
 <main>
     <div class="container mt-4">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
-                        type="button" role="tab" aria-controls="pills-home" aria-selected="true">Thêm sản phẩm</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
-                        type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Danh sách</button>
-            </li>
-        </ul>
+            <a class="btn btn-primary mb-3" th:href="@{/home/service/product/add}">Thêm sản phẩm</a>
+            <table class="table table-hover" border="1">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Miêu tả</th>
+                    <th>Giá</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                    <th>Danh mục</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p :${listProduct}">
+                    <th th:text="${p.id}"></th>
+                    <th th:text="${p.name}"></th>
+                    <th th:text="${p.description}"></th>
+                    <th th:text="${p.price}"></th>
+                    <th>    <img th:src="${p.mainImage != null ? '/assets/images/product/' + p.mainImage.image : '/assets/images/default.png'}" width="50px" height="50px">
+                    </th>
+                    <th th:text="${p.stock}"></th>
+                    <th th:text="${p.category.name}"></th>
+                    <td>
+                        <a th:href="@{/home/service/product/edit/{productId}(productId=${p.id})}" class="btn btn-primary">Sửa</a>
+                        <a th:href="@{/home/service/product/delete/{productId}(productId=${p.id})}" class="btn btn-danger">Xóa</a>
+                        <a th:href="@{/home/service/product/detail/{productId}(productId=${p.id})}" class="btn btn-success">Sản phẩm Chi tiết</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-        <div class="tab-content mt-4">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                <div th:replace="/product/form-product"></div>
-            </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                <div th:replace="/product/table-product"></div>
-            </div>
+            <th:block th:if="${!listProduct.isEmpty()}">
+            <nav aria-label="Pagination" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <!-- Nút Previous -->
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/home/service/product(numPage=${currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Hiển thị danh sách các trang -->
+                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/home/service/product(numPage=${i})}" th:text="${i}"></a>
+                    </li>
+
+                    <!-- Nút Next -->
+                    <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/home/service/product(numPage=${currentPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </th:block>
         </div>
     </div>
 </main>

@@ -25,4 +25,10 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryRepository.save(category);
 	}
 
+	@Override
+	public Category findById(Integer id) {
+		return categoryRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+	}
+
 }
