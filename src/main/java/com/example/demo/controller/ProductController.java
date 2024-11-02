@@ -144,6 +144,8 @@ public class ProductController {
 		services.addUserDetailsToModel(model);
 		return "product/update-product";
 	}
+
+
 	@GetMapping("/service/product/delete/{id}")
 	public String deleteProduct(@PathVariable("id") Integer id) {
 		productService.delete(id);
@@ -171,38 +173,43 @@ public class ProductController {
 
 
 	@PostMapping("/service/product/update")
-	public String update(@ModelAttribute("product") Product product,@RequestParam("imageMain") MultipartFile file,
-						 @RequestParam("categoryId") Integer categoryId ,Model model
+	public String update(@ModelAttribute("product") Product product,
+						 @RequestParam("imageMain") MultipartFile file,
+						 @RequestParam("categoryId") Integer categoryId,
+						 @RequestParam("imageId") Integer imageId
 	) throws IOException {
 		if (product.getId() == null) {
 			throw new IllegalArgumentException("Product ID must not be null");
 		}
+
 		Category category = categoryService.findById(categoryId);
 		if(category != null) {
 			product.setCategory(category);
 		}
 
+		if(file != null) {
+			String fileName = file.getOriginalFilename(); // Lấy tên file gốc
+			String uploadDir =  "assets/images/products/";
+			Path uploadPath = Paths.get(uploadDir);
+
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+			try {
+				Files.copy(file.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				System.err.println("Error copying file: " + fileName);
+				e.printStackTrace();
+			}
+			ProductImage productImage = new ProductImage();
+			productImage.setId(imageId);
+			productImage.setProduct(product);
+			productImage.setImage(fileName);
+
+			productImageService.updateProductId(productImage);
 
 
-//		if(file != null) {
-//			String fileName = file.getOriginalFilename(); // Lấy tên file gốc
-//			String uploadDir =  "assets/images/product/";
-//			Path uploadPath = Paths.get(uploadDir);
-//
-//			if (!Files.exists(uploadPath)) {
-//				Files.createDirectories(uploadPath);
-//			}
-//			try {
-//				Files.copy(file.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-//			} catch (IOException e) {
-//				System.err.println("Error copying file: " + fileName);
-//				e.printStackTrace();
-//			}
-//			ProductImage productImage = new ProductImage();
-//			productImage.setImage(fileName);
-//			product.setMainImage(productImage);
-//
-//		}
+		}
 
 		productService.update(product);
 
@@ -266,16 +273,46 @@ public class ProductController {
 	@PostMapping("/service/product/detail/update")
 	public String updateProductDetail(@ModelAttribute("product") ProductAttribute productAttribute,
 									  @RequestParam("colorId") Integer colorId,
-									  @RequestParam("sizeId") Integer sizeId) {
-		if(productAttribute.getId() == null) {
+									  @RequestParam("sizeId") Integer sizeId,
+									  @RequestParam("photoFile") MultipartFile photoFile,
+									  @RequestParam("imageId") Integer imageID){
+		if (productAttribute.getId() == null) {
 			throw new IllegalArgumentException("Product ID must not be null");
 		}
-		productAttribute.setColor(new Color(colorId));
-		productAttribute.setSize(new Size(sizeId));
-		productDetailService.updateProductAttribute(productAttribute);
+		try {
+			if (!photoFile.isEmpty()) {
+				String fileName = photoFile.getOriginalFilename();
+				String uploadDir = "assets/images/products/";
 
-		return "redirect:/home/service/product";
+				Path uploadPath = Paths.get(uploadDir);
+
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
+
+				Files.copy(photoFile.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+
+				ProductImage productImage = new ProductImage();
+				productImage.setId(imageID);
+				productImage.setAttribute(productAttribute);
+				productImage.setImage(fileName);
+				productImageService.updateAttributeId(productImage);
+			}
+
+
+			productAttribute.setColor(new Color(colorId));
+			productAttribute.setSize(new Size(sizeId));
+			productDetailService.updateProductAttribute(productAttribute);
+
+			return "redirect:/home/service/product";
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "product/create-product";
+		}
+
+
 	}
+
 
 	@GetMapping("/service/product/detail/delete/{id}")
 	public String deleteProductDetail(@PathVariable("id") Integer id) {

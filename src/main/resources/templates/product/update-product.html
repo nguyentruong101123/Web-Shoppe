@@ -46,6 +46,7 @@
                         <div class="form-row">
                             <label for="image">Hình ảnh:</label><br>
                             <input type="file" class="form-control" accept="image/*" name="imageMain" id="photoFile">
+                            <input type="hidden" th:value="${product.mainImage.id}" name="imageId">
                             <img th:src="@{|/assets/images/product/${product.mainImage.image}|}" width="auto" height="40%" alt="Product Image" style="margin-left:300px; margin-top: 10px">
                         </div>
                         <div class="form-row">

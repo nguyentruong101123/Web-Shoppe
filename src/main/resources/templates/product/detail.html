@@ -50,8 +50,10 @@
                 <!-- Giá sản phẩm -->
                         <!-- Giá sản phẩm -->
     	   <div class="product-price">
-  			  <p th:text="'Giá: ' + ${formattedPrices[0]} + ' VND'"></p>
-				</div>
+               <p th:if="${formattedPrices.size() > 0}" th:text="'Giá: ' + ${formattedPrices[0]} + ' VND'"></p>
+               <p th:if="${formattedPrices.size() > 1}" th:text="'Giá khuyến mãi: ' + ${formattedPrices[1]} + ' VND'"></p>
+               <p th:if="${formattedPrices.size() == 0}">Không có thông tin giá sản phẩm.</p>
+           </div>
 
 		
                 <!-- Kích thước sản phẩm -->

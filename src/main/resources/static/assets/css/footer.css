@@ -1,4 +1,9 @@
 /* Định dạng cho footer */
+body {
+    display: grid;
+    grid-template-rows: 1fr auto; /* 1fr cho main và auto cho footer */
+    height: 100vh; /* Đảm bảo body có chiều cao tối thiểu */
+}
 footer {
     background-color: #343a40; /* Màu nền tối */
     color: #ffffff; /* Màu chữ trắng */

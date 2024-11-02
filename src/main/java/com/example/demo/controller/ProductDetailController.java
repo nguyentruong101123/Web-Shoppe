@@ -92,8 +92,11 @@ public class ProductDetailController {
 			    .map(attribute -> formatCurrency(attribute.getPrice()))
 			    .collect(Collectors.toList());
 
-	    model.addAttribute("formattedPrices", formattedPrices);
-		
+		if (formattedPrices.isEmpty()) {
+			model.addAttribute("errorMessage", "Không có thông tin giá cho sản phẩm này.");
+		} else {
+			model.addAttribute("formattedPrices", formattedPrices);
+		}
 		model.addAttribute("details", productDetailDTO);
 		return "product/detail";
 		

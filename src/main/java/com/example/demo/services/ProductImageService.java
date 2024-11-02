@@ -19,4 +19,8 @@ public interface ProductImageService {
 	ProductImage deleteProductImage(Integer id);
 
 	ProductImage findByAttributeId(Integer id);
+
+	ProductImage updateAttributeId(ProductImage productImage);
+
+	ProductImage updateProductId(ProductImage productImage);
 }

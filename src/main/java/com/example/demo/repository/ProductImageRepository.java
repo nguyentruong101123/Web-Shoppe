@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import com.example.demo.entity.Product;
+import com.example.demo.entity.ProductAttribute;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,5 +28,9 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Inte
 	@Query("SELECT pi FROM ProductImage pi WHERE pi.product.id = :productId AND pi.imageType = 'main'")
 	ProductImage findMainImageByProductId(@Param("productId") Integer productId);
 
+	@Query("select pi from ProductImage pi where pi.id = :id and pi.attribute = :productAttributeId")
+	ProductImage findByIdAndAttributeId(@Param("id") Integer id,@Param("productAttributeId") ProductAttribute productAttributeId);
 
+	@Query("select pi from ProductImage pi where pi.id = :id and pi.product = :productId")
+	ProductImage findByIdAndProductId(@Param("id")  Integer id,@Param("productId") Product productId);
 }
