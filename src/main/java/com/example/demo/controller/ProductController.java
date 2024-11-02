@@ -94,6 +94,29 @@ public class ProductController {
 	}
 
 
+	@GetMapping("/search")
+	public String searchProductName(Model model, @RequestParam(defaultValue = "1") Integer num, @RequestParam("productName") String productName) {
+		services.addUserDetailsToModel(model);
+		model.addAttribute("hideHeader", true);
+
+		// Tạo Pageable object với thông tin trang hiện tại và kích thước
+		// Khởi tạo Page<Product> dựa trên categoryId
+		Integer size = 12;
+		Pageable pageable = PageRequest.of(num-1, size);
+		Page<Product> products;
+
+		products = productService.searchByName(pageable, productName);
+
+		// Thêm danh sách sản phẩm vào model
+		// Thêm danh sách sản phẩm vào model
+		model.addAttribute("products", products);
+		model.addAttribute("currentPage", num);                         // Trang hiện tại
+		model.addAttribute("totalPages", products.getTotalPages());      // Tổng số trang
+
+		return "product/search-product";
+	}
+
+
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/service/product")
 	public String getProduct(Model model, @RequestParam(defaultValue = "1") Integer numPage) {
@@ -197,27 +220,62 @@ public class ProductController {
 		return "product/product-detail";
 	}
 
+
+
 	@GetMapping("/service/product/detail/{id}")
 	public String getProductDetail(@PathVariable("id") Integer id, Model model) {
 		services.addUserDetailsToModel(model);
 		model.addAttribute("hideHeader", true);
-		List<ProductAttribute> productAttribute =productDetailService.findByProductId(id);
-		if (productAttribute.isEmpty()) {
+		List<ProductAttribute> productAttributes = productDetailService.findByProductId(id);
+		if (productAttributes.isEmpty()) {
 			model.addAttribute("errorMessage", "Không có chi tiết sản phẩm cho sản phẩm này.");
-			return "product/product-detail"; // Trả về trang với thông báo lỗi hoặc xử lý khác
-		}
-		ProductAttribute findId = productDetailService.findById(productAttribute.get(0).getId());
-		if (findId == null) {
-			model.addAttribute("errorMessage", "Chi tiết sản phẩm không tìm thấy.");
-			return "product/product-detail"; // Trả về trang với thông báo lỗi hoặc xử lý khác
+			return "product/product-detail"; // Trả về trang với thông báo lỗi
 		}
 
-		List<ProductImage> productImages = productImageService.findByProductAttributeId(findId.getId());
-		model.addAttribute("image", productImages);
-		model.addAttribute("productAttribute", productAttribute);
+
+		model.addAttribute("productAttribute", productAttributes);
+
 		return "product/product-detail";
 	}
 
+
+	@GetMapping("/service/product/detail/list/{id}")
+	public String updateProductDetail(@PathVariable("id") Integer id, Model model) {
+		services.addUserDetailsToModel(model);
+		model.addAttribute("hideHeader", true);
+
+		ProductAttribute findId = productDetailService.findById(id);
+		if (findId == null) {
+			model.addAttribute("errorMessage", "Chi tiết sản phẩm không tìm thấy.");
+			return "product/product-update-detail";
+		}
+
+		ProductImage productImages = productImageService.findByAttributeId(findId.getId());
+		if(productImages == null) {
+			return "product/product-update-detail";
+		}
+		model.addAttribute("image", productImages);
+		model.addAttribute("productAttribute", findId);
+		model.addAttribute("sizes", sizeService.getAll());
+		model.addAttribute("colors", colorService.getAll());
+
+		return "product/product-update-detail";
+	}
+
+
+	@PostMapping("/service/product/detail/update")
+	public String updateProductDetail(@ModelAttribute("product") ProductAttribute productAttribute,
+									  @RequestParam("colorId") Integer colorId,
+									  @RequestParam("sizeId") Integer sizeId) {
+		if(productAttribute.getId() == null) {
+			throw new IllegalArgumentException("Product ID must not be null");
+		}
+		productAttribute.setColor(new Color(colorId));
+		productAttribute.setSize(new Size(sizeId));
+		productDetailService.updateProductAttribute(productAttribute);
+
+		return "redirect:/home/service/product";
+	}
 
 	@GetMapping("/service/product/detail/delete/{id}")
 	public String deleteProductDetail(@PathVariable("id") Integer id) {

@@ -15,6 +15,5 @@ public interface ProductDetailService {
 
 	 ProductAttribute deleteProductAttribute(Integer id);
 
-
-
+	 ProductAttribute updateProductAttribute(ProductAttribute productAttribute);
 }

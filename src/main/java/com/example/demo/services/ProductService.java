@@ -33,4 +33,6 @@ public interface ProductService {
 	int getTotalPages(int pageSize);
 
 	Product delete (Integer productId);
+
+	Page<Product> searchByName(Pageable pageable,String name);
 }

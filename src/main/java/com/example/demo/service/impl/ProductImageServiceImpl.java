@@ -49,5 +49,10 @@ public class ProductImageServiceImpl implements ProductImageService {
 		return productImage;
 	}
 
+	@Override
+	public ProductImage findByAttributeId(Integer id) {
+		return productImageRepository.findFirstByAttributeId(id);
+	}
+
 
 }

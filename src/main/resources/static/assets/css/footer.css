@@ -1,0 +1,70 @@
+/* Định dạng cho footer */
+footer {
+    background-color: #343a40; /* Màu nền tối */
+    color: #ffffff; /* Màu chữ trắng */
+    padding: 20px 0; /* Khoảng cách trên và dưới */
+}
+
+/* Tiêu đề trong footer */
+footer h5 {
+    font-size: 18px; /* Kích thước tiêu đề */
+    margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+    color: #ffc107; /* Màu tiêu đề */
+}
+
+/* Văn bản trong footer */
+footer p {
+    font-size: 14px; /* Kích thước văn bản */
+    color: #eaeaea; /* Màu chữ */
+}
+
+/* Liên kết trong footer */
+footer a {
+    text-decoration: none; /* Bỏ gạch chân */
+    color: #ffffff; /* Màu chữ trắng */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Gạch chân khi hover */
+    color: #ffc107; /* Đổi màu khi hover */
+}
+
+/* Định dạng cho danh sách không có dấu */
+.list-unstyled {
+    padding-left: 0; /* Bỏ lề cho danh sách */
+    list-style: none; /* Bỏ dấu chấm */
+}
+
+/* Định dạng cho các icon mạng xã hội */
+footer .d-flex {
+    list-style-type: none; /* Bỏ dấu chấm */
+    padding-left: 0; /* Bỏ lề cho danh sách */
+}
+
+footer .d-flex li {
+    margin-right: 15px; /* Khoảng cách giữa các icon */
+}
+
+footer .d-flex li a {
+    font-size: 20px; /* Kích thước icon */
+    color: #ffffff; /* Màu icon */
+    transition: color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+footer .d-flex li a:hover {
+    color: #ffc107; /* Màu khi hover */
+}
+
+/* Định dạng cho phần text-center */
+footer .text-center {
+    margin-top: 20px; /* Khoảng cách trên cho phần bản quyền */
+    font-size: 12px; /* Kích thước chữ nhỏ hơn */
+    color: #eaeaea; /* Màu chữ */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    footer .col-md-4 {
+        margin-bottom: 20px; /* Khoảng cách dưới cho các cột */
+    }
+}

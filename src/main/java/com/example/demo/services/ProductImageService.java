@@ -17,4 +17,6 @@ public interface ProductImageService {
 	List<ProductImage> findByProductAttributeId(Integer productId);
 
 	ProductImage deleteProductImage(Integer id);
+
+	ProductImage findByAttributeId(Integer id);
 }

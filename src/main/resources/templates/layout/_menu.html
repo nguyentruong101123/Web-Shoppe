@@ -12,11 +12,12 @@
 				th:href="@{/home/service/product}">Sản phẩm</a>
 		</div>
 		<div class="search-box">
-			<input type="text" placeholder="Search...">
+			<form th:action="@{/home/search}" method="get">
+			<input type="text" name="productName" placeholder="Search...">
 			<button type="submit">
 				<i class="fa fa-search"></i> Search
 			</button>
-			
+			</form>
 		</div>
 		<div class="icons">
 			<a th:href="@{/api/messages/chat}" title="Cart"><i class="bi bi-chat-left-dots-fill"></i></a>

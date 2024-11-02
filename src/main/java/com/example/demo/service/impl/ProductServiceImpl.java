@@ -131,4 +131,17 @@ public class ProductServiceImpl implements ProductService {
 		return product;
 	}
 
+
+	@Override
+	public Page<Product> searchByName(Pageable pageable,String name) {
+		Page<Product> productPage = productRepository.findByName(pageable,name);
+		List<Product> products = productPage.getContent();
+		for (Product product : products) {
+			ProductImage mainImage = productImageRepository.findMainImageByProductId(product.getId());
+			product.setMainImage(mainImage);
+		}
+
+		return new PageImpl<>(products, pageable, productPage.getTotalElements());
+	}
+
 }

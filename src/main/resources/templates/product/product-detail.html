@@ -38,11 +38,17 @@
                 <th th:text="${p.color.colorName}"></th>
                 <th th:text="${p.stock}"></th>
                 <th th:text="${p.price}"></th>
-                <th th:each="image : ${image}">
-                <img th:src="@{|/assets/images/product/${image.image}|}" width="50px" height="50px" alt="">
-                </th>
+
                 <td>
-                    <a th:href="@{/home/service/product/edit/{productId}(productId=${p.id})}" class="btn btn-primary">Sửa</a>
+                    <img th:if="${p.mainImage != null}"
+                         th:src="@{|/assets/images/product/${p.mainImage.image}|}"
+                         width="50" height="50" alt="">
+                    <img th:if="${p.mainImage == null}"
+                         th:src="@{/assets/images/default-image.png}"
+                         width="50" height="50" alt="Default Image">
+                </td>
+                <td>
+                    <a th:href="@{/home/service/product/detail/list/{productId}(productId=${p.id})}" class="btn btn-primary">Sửa</a>
                     <a th:href="@{/home/service/product/detail/delete/{id}(id=${p.id})}" class="btn btn-danger">Xóa</a>
                 </td>
             </tr>

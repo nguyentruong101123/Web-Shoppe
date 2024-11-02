@@ -14,6 +14,7 @@ import lombok.ToString;
 @SuppressWarnings("serial")
 @Data
 @Entity
+@ToString
 @Table(name = "Products")
 @NoArgsConstructor
 @AllArgsConstructor

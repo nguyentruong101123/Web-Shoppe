@@ -14,46 +14,53 @@
     <div class="container mt-4">
         <a class="btn btn-primary mb-3" th:href="@{/home/service/product}">Sản phẩm</a>
         <a class="btn btn-primary mb-3" th:href="@{/home/service/product/add}">Thêm sản phẩm</a>
-        <form th:action="@{/home/service/product/update}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/home/service/product/detail/update}" method="post" th:object="${productAttribute}" enctype="multipart/form-data">
             <h1>Sửa Sản Phẩm</h1>
-            <input type="hidden" class="form-control" name="id">
+            <input type="hidden" class="form-control" th:value="${productAttribute.id}" name="id">
+
             <div class="form-row">
                 <label for="color">Màu sắc: </label>
-                <select id="categoryId" name="categoryId" required>
+                <select id="color" name="colorId" required>
                     <option value="" disabled selected>Chọn danh mục</option>
-                    <option th:each="category : ${categories}" th:value="${category.id}"
-                            th:selected="${category.id == product.category.id}"
-                            th:text="${category.name}">
+                    <option th:each="color : ${colors}" th:value="${color.id}"
+                            th:selected="${color.id == productAttribute.color.id}"
+                            th:text="${color.colorName}">
                     </option>
                 </select>
             </div>
+
             <div class="form-row">
-                <label for="description">Miêu tả: </label>
-                <input type="text" class="form-control" name="description" >
+                <label for="size">Kích thước: </label>
+                <select id="sizeId" name="sizeId" required>
+                    <option value="" disabled selected>Chọn danh mục</option>
+                    <option th:each="size : ${sizes}" th:value="${size.id}"
+                            th:selected="${size.id == productAttribute.size.id}"
+                            th:text="${size.sizeName}">
+                    </option>
+                </select>
             </div>
+
             <div class="form-row">
                 <label for="price">Giá: </label>
-                <input type="number" class="form-control">
+                <input type="number" class="form-control" th:field="*{price}" name="price">
             </div>
-            <div class="form-row">
-                <label for="category">Category: </label>
-                <select id="categoryId" name="categoryId" required>
-                    <option value="" disabled selected>Chọn danh mục</option>
-                    <option th:each="category : ${categories}" th:value="${category.id}"
-                            th:selected="${category.id == product.category.id}"
-                            th:text="${category.name}">
-                    </option>
-                </select>
-            </div>
+
             <div class="form-row">
                 <label for="stock">Số lượng: </label>
-                <input type="number" class="form-control" name="stock">
+                <input type="number" class="form-control" name="stock" th:field="*{stock}" >
             </div>
             <div class="form-row">
                 <label for="image">Hình ảnh:</label><br>
                 <input type="file" class="form-control" accept="image/*" name="imageMain" id="photoFile">
-                <img th:src="@{|/assets/images/product/${product.mainImage.image}|}" width="auto" height="40%" alt="Product Image" style="margin-left:300px; margin-top: 10px">
+               <th:block th:if="${image.image} != null">
+                <img th:src="@{|/assets/images/product/${image.image}|}" width="50%" height="100%" alt="Product Image" style="margin-left:300px; margin-top: 10px">
+               </th:block>
+                <th:block th:if="${image.image} == null">
+                    <img width="50%" height="100%" alt="Product Image" style="margin-left:300px; margin-top: 10px">
+                </th:block>
+
             </div>
+
             <div class="form-row">
                 <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
             </div>
